@@ -2,7 +2,6 @@ History.txt
 MIT-LICENSE
 Manifest.txt
 PostInstall.txt
-README
 README.rdoc
 Rakefile
 init.rb
@@ -11,12 +10,15 @@ lib/restful_query.rb
 lib/restful_query/can_query.rb
 lib/restful_query/condition.rb
 lib/restful_query/parser.rb
+lib/restful_query/sort.rb
+rails/init.rb
+restful_query.gemspec
 script/console
 script/destroy
 script/generate
 tasks/restful_query_tasks.rake
 test/test_helper.rb
-test/test_restful_query.rb
+test/test_restful_query_can_query.rb
 test/test_restful_query_condition.rb
 test/test_restful_query_parser.rb
-uninstall.rb
+test/test_restful_query_sort.rb
