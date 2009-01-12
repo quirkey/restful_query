@@ -1,3 +1,1 @@
-require 'restful_query'
-
-ActiveRecord::Base.send(:include, RestfulQuery::CanQuery)
+require File.join(File.dirname(__FILE__), 'rails', 'init.rb')
