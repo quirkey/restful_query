@@ -4,7 +4,7 @@ class RestfulQueryParserTest < Test::Unit::TestCase
 
   context "Parser" do
     setup do
-      @base_query_hash = {'created_at' => {'gt' => '1 week ago'}, 'updated_at' => {'lt' => '1 day ago'}, 'title' => {'eq' => 'Test'}, 'other_time' => {'gt' => 'oct 1'}, 'name' => 'Aaron'}
+      @base_query_hash = {'created_at' => {'gt' => '1 week ago'}, 'updated_at' => {'lt' => '1 day ago'}, 'title' => {'eq' => 'Test'}, 'other_time' => {'gt' => 'oct 1'}, 'name' => 'Aaron', '__sort' => ['title-up', 'updated_at-asc']}
     end
 
     context "from_hash" do
@@ -100,6 +100,48 @@ class RestfulQueryParserTest < Test::Unit::TestCase
           assert_not_equal Chronic.parse('1 day ago').to_s, @parser.conditions_for(:updated_at).first.value.to_s
         end
       end
+
+      context "with sort as a single string" do
+        setup do
+          new_parser_from_hash({:_sort => 'created_at-up'})
+        end
+
+        should "return parser object" do
+          assert @parser.is_a?(RestfulQuery::Parser)
+        end
+
+        should "parse sort string" do
+          @sort = @parser.sorts.first 
+          assert @sort.is_a?(RestfulQuery::Sort)
+          assert_equal 'ASC', @sort.direction
+          assert_equal 'created_at', @sort.column
+        end
+
+        should "add sort to sorts" do
+          assert @parser.sorts
+          assert_equal 1, @parser.sorts.length
+        end
+
+      end
+
+      context "with sort as an array of strings" do
+        setup do
+          new_parser_from_hash({:_sort => ['created_at-up','title-desc']})
+        end
+
+        should "return parser object" do
+          assert @parser.is_a?(RestfulQuery::Parser)
+        end
+
+        should "add sorts to sorts" do
+          assert @parser.sorts
+          assert_equal 2, @parser.sorts.length
+          @parser.sorts.each do |sort|
+            assert sort.is_a?(RestfulQuery::Sort)
+          end
+        end
+
+      end
     end
 
     context "a loaded parser" do
@@ -174,6 +216,27 @@ class RestfulQueryParserTest < Test::Unit::TestCase
 
         should "join query hash with OR" do
           assert_match(/(([a-z_]) (\<|\>|\=|\<\=|\>\=) \? OR)+/,@conditions[0])
+        end
+      end
+
+      context "sorts" do
+        setup do
+          @sorts = @parser.sorts 
+        end
+        
+        should "return an array of sort objects" do
+          assert @sorts
+          assert_equal 2, @sorts.length
+          @sorts.each do |sort|
+            assert sort.is_a?(RestfulQuery::Sort)
+          end
+        end
+
+      end
+
+      context "sort_sql" do
+        should "join order with ," do
+          assert_equal 'title ASC, updated_at DESC', @parser.sort_sql
         end
       end
 

@@ -1,7 +1,7 @@
 module RestfulQuery
   class InvalidDirection < Error; end
   
-  class Order
+  class Sort
     attr_reader :column, :direction
     
     DIRECTIONS = {
@@ -15,6 +15,11 @@ module RestfulQuery
     def initialize(column, direction)
       self.column    = column
       self.direction = direction
+    end
+    
+    def self.parse(sort_string, split_on = '-')
+      column, direction = sort_string.split(split_on)
+      new(column, direction)
     end
     
     def column=(column)

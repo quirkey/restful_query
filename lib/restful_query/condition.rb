@@ -28,7 +28,6 @@ module RestfulQuery
       self.column   = column
       self.value    = value
       self.operator = operator
-      raise(RestfulQuery::InvalidOperator, "#{@operator} is not a valid operator") unless @operator
     end
     
     def map_operator(operator_to_look_up, reverse = false)
@@ -39,6 +38,7 @@ module RestfulQuery
  
     def operator=(operator)
       @operator = map_operator(operator)
+      raise(RestfulQuery::InvalidOperator, "#{@operator} is not a valid operator") unless @operator
     end
       
     def column=(column)
