@@ -13,7 +13,8 @@ $hoe = Hoe.new('restful_query', RestfulQuery::VERSION) do |p|
     ['chronic','>= 0.2.3']
   ]
   p.extra_dev_deps = [
-    ['newgem', ">= #{::Newgem::VERSION}"]
+    ['newgem', ">= #{::Newgem::VERSION}"],
+    ['Shoulda', '>= 1.2.0']
   ]
   
   p.clean_globs |= %w[**/.DS_Store tmp *.log]
