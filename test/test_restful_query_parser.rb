@@ -4,7 +4,7 @@ class RestfulQueryParserTest < Test::Unit::TestCase
 
   context "Parser" do
     setup do
-      @base_query_hash = {'created_at' => {'gt' => '1 week ago'}, 'updated_at' => {'lt' => '1 day ago'}, 'title' => {'eq' => 'Test'}, 'other_time' => {'gt' => 'oct 1'}, 'name' => 'Aaron', '__sort' => ['title-up', 'updated_at-asc']}
+      @base_query_hash = {'created_at' => {'gt' => '1 week ago'}, 'updated_at' => {'lt' => '1 day ago'}, 'title' => {'eq' => 'Test'}, 'other_time' => {'gt' => 'oct 1'}, 'name' => 'Aaron'}
     end
 
     context "from_hash" do
@@ -103,7 +103,7 @@ class RestfulQueryParserTest < Test::Unit::TestCase
 
       context "with sort as a single string" do
         setup do
-          new_parser_from_hash({:_sort => 'created_at-up'})
+          new_parser_from_hash({'_sort' => 'created_at-up'})
         end
 
         should "return parser object" do
@@ -126,7 +126,7 @@ class RestfulQueryParserTest < Test::Unit::TestCase
 
       context "with sort as an array of strings" do
         setup do
-          new_parser_from_hash({:_sort => ['created_at-up','title-desc']})
+          new_parser_from_hash({'_sort' => ['created_at-up','title-desc']})
         end
 
         should "return parser object" do
@@ -221,6 +221,7 @@ class RestfulQueryParserTest < Test::Unit::TestCase
 
       context "sorts" do
         setup do
+          new_parser_from_hash({'_sort' => ['title-down', 'updated_at-asc']})
           @sorts = @parser.sorts 
         end
         
@@ -236,7 +237,8 @@ class RestfulQueryParserTest < Test::Unit::TestCase
 
       context "sort_sql" do
         should "join order with ," do
-          assert_equal 'title ASC, updated_at DESC', @parser.sort_sql
+          new_parser_from_hash({'_sort' => ['title-down', 'updated_at-asc']})
+          assert_equal 'title DESC, updated_at ASC', @parser.sort_sql
         end
       end
 

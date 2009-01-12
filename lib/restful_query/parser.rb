@@ -1,6 +1,6 @@
 module RestfulQuery
   class Parser
-    attr_reader :query_hash, :exclude_columns, :integer_columns, :options
+    attr_reader :query_hash, :exclude_columns, :integer_columns, :options, :sorts
 
     def initialize(query_hash, options = {})
       @options         = options || {}
@@ -8,6 +8,7 @@ module RestfulQuery
       @integer_columns = options[:integer_columns] ? [options.delete(:integer_columns)].flatten.collect {|c| c.to_s } : []
       @query_hash      = query_hash || {}
       @default_join    = @query_hash.delete(:join) || :and
+      extract_sorts_from_conditions
       map_hash_to_conditions
     end
 
@@ -31,6 +32,15 @@ module RestfulQuery
       end
       conditions_values.unshift(conditions_string.join(join_string))
     end
+    
+    def self.sorts_from_hash(sorts)
+      sort_conditions = [sorts].flatten
+      sort_conditions.collect {|c| Sort.parse(c) }
+    end
+    
+    def sort_sql
+      @sorts.collect {|s| s.to_sql }.join(', ')
+    end
 
     protected
     def add_condition_for(column, condition)
@@ -48,6 +58,10 @@ module RestfulQuery
       else
         []
       end
+    end
+    
+    def extract_sorts_from_conditions
+      @sorts = self.class.sorts_from_hash(@query_hash.delete('_sort'))
     end
 
     def map_hash_to_conditions

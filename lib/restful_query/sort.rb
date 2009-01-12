@@ -18,6 +18,7 @@ module RestfulQuery
     end
     
     def self.parse(sort_string, split_on = '-')
+      return unless sort_string
       column, direction = sort_string.split(split_on)
       new(column, direction)
     end
