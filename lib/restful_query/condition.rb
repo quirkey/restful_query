@@ -1,5 +1,5 @@
 module RestfulQuery
-  class InvalidOperator < RuntimeError; end;
+  class InvalidOperator < Error; end;
   
   class Condition
     attr_reader :column, :value, :operator, :options

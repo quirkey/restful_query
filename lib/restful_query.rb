@@ -13,9 +13,11 @@ end
 
 module RestfulQuery
   VERSION = '0.1.0'
+  
+  class Error < RuntimeError; end
 end
 
 
-%w{condition parser can_query}.each do |lib|
+%w{condition order parser can_query}.each do |lib|
   require File.join(File.dirname(__FILE__),"restful_query","#{lib}.rb")
 end
