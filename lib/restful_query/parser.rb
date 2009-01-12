@@ -1,6 +1,6 @@
 module RestfulQuery
   class Parser
-    attr_reader :query_hash, :exclude_columns, :integer_columns, :options, :sorts
+    attr_reader :query_hash, :exclude_columns, :integer_columns, :options
 
     def initialize(query_hash, options = {})
       @options         = options || {}
@@ -40,6 +40,14 @@ module RestfulQuery
     
     def sort_sql
       @sorts.collect {|s| s.to_sql }.join(', ')
+    end
+    
+    def has_sort?
+      !sorts.empty?
+    end
+    
+    def sorts
+      @sorts ||= []
     end
 
     protected
