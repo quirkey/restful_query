@@ -12,15 +12,16 @@ module RestfulQuery
         @can_query     = true
         module_eval do
           def self.restful_query_parser(query_hash, options = {})
-            RestfulQuery::Parser.new(query_hash, @query_options.merge(options))
+            RestfulQuery::Parser.new(query_hash.dup, @query_options.merge(options))
           end
           
           named_scope :restful_query, lambda {|query_hash| 
             parser = self.restful_query_parser(query_hash)
-            query_hash = {:conditions => parser.to_conditions_array}
-            query_hash[:include] = @include if @include && !@include.empty?
-            query_hash[:order]   = parser.sort_sql if parser.has_sort?
-            logger.info 'Rest query:' + query_hash
+            query_hash = {}
+            query_hash[:conditions] = parser.to_conditions_array if parser.has_conditions?
+            query_hash[:include]    = @include if @include && !@include.empty?
+            query_hash[:order]      = parser.sort_sql if parser.has_sort?
+            logger.info 'Rest query:' + query_hash.inspect
             query_hash
           }
         end
