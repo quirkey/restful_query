@@ -232,8 +232,38 @@ class RestfulQueryParserTest < Test::Unit::TestCase
             assert sort.is_a?(RestfulQuery::Sort)
           end
         end
-
+        
+        context "sorted_columns" do
+          should "return an array of columns" do
+            @sorted_columns = @parser.sorted_columns
+            assert @sorted_columns.is_a?(Array)
+            assert @sorted_columns.include?('title')
+          end
+        end
+        
+        context "sorted_by?" do
+          should "return true if column is sorted" do
+            assert @parser.sorted_by?('title')
+          end
+          
+          should "return false if column is not sorted" do
+            assert !@parser.sorted_by?('created_at')
+          end
+        end
+        
+        context "sort()" do
+          should "return Sort object if column is sorted" do
+            sort = @parser.sort('title')
+            assert sort.is_a?(RestfulQuery::Sort)
+            assert_equal 'title', sort.column
+          end
+          
+          should "return nil if col" do
+            assert_nil @parser.sort('created_at')
+          end
+        end
       end
+      
 
       context "sort_sql" do
         should "join order with ," do

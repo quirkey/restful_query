@@ -49,6 +49,18 @@ module RestfulQuery
     def sorts
       @sorts ||= []
     end
+    
+    def sorted_columns
+      sorts.collect {|s| s.column }
+    end
+    
+    def sorted_by?(column)
+      sorted_columns.include?(column.to_s)
+    end
+    
+    def sort(column)
+      sorts.find {|s| s.column == column.to_s }
+    end
 
     protected
     def add_condition_for(column, condition)
