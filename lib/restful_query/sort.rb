@@ -7,8 +7,10 @@ module RestfulQuery
     DIRECTIONS = {
       'up' => 'ASC',
       'asc' => 'ASC',
+      'ASC' => 'ASC',
       'down' => 'DESC',
-      'desc' => 'DESC'
+      'desc' => 'DESC',
+      'DESC' => 'DESC'
     }.freeze
     
     
@@ -30,6 +32,10 @@ module RestfulQuery
     def direction=(direction)
       @direction = DIRECTIONS[direction.to_s]
       raise(InvalidDirection, "'#{direction}' is not a valid order direction") unless @direction
+    end
+    
+    def reverse_direction
+      direction == 'ASC' ? 'DESC' : 'ASC'
     end
     
     def to_s(join = '-')
