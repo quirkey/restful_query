@@ -38,6 +38,22 @@ module RestfulQuery
       direction == 'ASC' ? 'DESC' : 'ASC'
     end
     
+    # Makes a roundabout for directions nil -> desc -> asc -> nil
+    def self.next_direction(current_direction)
+      case current_direction.to_s.downcase
+      when 'desc'
+        'asc'
+      when 'asc'
+        nil
+      else
+        'desc'
+      end
+    end
+    
+    def next_direction
+      self.class.next_direction(direction)
+    end
+    
     def to_s(join = '-')
       "#{column}#{join}#{direction.downcase}"
     end

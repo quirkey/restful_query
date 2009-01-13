@@ -310,6 +310,17 @@ class RestfulQueryParserTest < Test::Unit::TestCase
             end
           end
           
+          context "with direction: nil" do
+            setup do
+              @parser.set_sort('title', nil)
+            end
+            
+            should "remove sort" do
+              assert_equal 1, @parser.sorts.length
+              assert !@parser.sorted_by?('title')
+            end
+          end
+          
           context "with a new sort" do
             setup do
               @parser.set_sort('name', 'down')
