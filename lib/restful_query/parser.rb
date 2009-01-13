@@ -35,13 +35,13 @@ module RestfulQuery
     
     def to_query_hash
       hash = @query_hash
-      hash[:join] = @default_join
-      hash[:_sort] = sorts.collect {|s| s.to_s }
+      hash['join'] = @default_join
+      hash['_sort'] = sorts.collect {|s| s.to_s }
       hash
     end
         
     def self.sorts_from_hash(sorts)
-      sort_conditions = [sorts].flatten
+      sort_conditions = [sorts].flatten.compact
       sort_conditions.collect {|c| Sort.parse(c) }
     end
     
@@ -66,7 +66,17 @@ module RestfulQuery
     end
     
     def sort(column)
-      sorts.find {|s| s.column == column.to_s }
+      sorts.detect {|s| s && s.column == column.to_s }
+    end
+    
+    def set_sort(column, direction)
+      if new_sort = self.sort(column)
+        new_sort.direction = direction
+      else
+        new_sort = Sort.new(column, direction)
+        self.sorts << new_sort
+      end
+      new_sort
     end
 
     protected

@@ -162,7 +162,7 @@ class RestfulQueryParserTest < Test::Unit::TestCase
         end
 
         should "include conditions for every attribute" do
-          assert_equal @base_query_hash.keys.length, @conditions.length
+          assert_equal @base_query_hash.keys.length + 1, @conditions.length
         end
       end
 
@@ -204,7 +204,7 @@ class RestfulQueryParserTest < Test::Unit::TestCase
         end
 
         should "include values for each conditions" do
-          assert_equal @base_query_hash.keys.length + 1, @conditions.length
+          assert_equal @base_query_hash.keys.length + 2, @conditions.length
         end
 
       end
@@ -216,6 +216,38 @@ class RestfulQueryParserTest < Test::Unit::TestCase
 
         should "join query hash with OR" do
           assert_match(/(([a-z_]) (\<|\>|\=|\<\=|\>\=) \? OR)+/,@conditions[0])
+        end
+      end
+      
+      context "to_query_hash" do
+        context "with no altering" do
+          setup do
+            @query_hash = @parser.to_query_hash
+          end
+          
+          should "return hash" do
+            assert @query_hash.is_a?(Hash)
+          end
+      
+          should "return initial query hash" do
+            assert_equal({'gt' => '1 week ago', 'lt' => '1 hour ago'}, @query_hash['created_at'])
+          end
+        end
+        
+        context "with altered sorts" do
+          setup do
+            @parser.set_sort('title', 'up')
+            @parser.set_sort('created_at', 'down')
+            @query_hash = @parser.to_query_hash
+          end
+          
+          should "include unaltered sort conditions" do
+            assert_equal({'gt' => '1 week ago', 'lt' => '1 hour ago'}, @query_hash['created_at'])
+          end
+          
+          should "include altered sorts" do
+            assert_equal(['title-asc','created_at-desc'], @query_hash['_sort'])
+          end
         end
       end
       
@@ -262,6 +294,38 @@ class RestfulQueryParserTest < Test::Unit::TestCase
             assert_nil @parser.sort('created_at')
           end
         end
+        
+        context "set_sort" do
+          context "with an existing sort" do            
+            setup do
+              @parser.set_sort('title','up')
+            end
+            
+            should "not add new sort" do
+              assert_equal 2, @parser.sorts.length
+            end
+            
+            should "update sort direction" do
+              assert_equal 'ASC', @parser.sort('title').direction
+            end
+          end
+          
+          context "with a new sort" do
+            setup do
+              @parser.set_sort('name', 'down')
+            end
+            
+            should "add sort to sorts" do
+              assert_equal 3, @parser.sorts.length
+            end
+            
+            should "set sort direction" do
+              assert_equal 'DESC', @parser.sort('name').direction
+            end
+          end
+          
+        end
+        
       end
       
 
