@@ -17,10 +17,10 @@ module RestfulQuery
           
           named_scope :restful_query, lambda {|query_hash| 
             parser = self.restful_query_parser(query_hash)
-            logger.info 'Rest query:' + conditions_array.inspect
             query_hash = {:conditions => parser.to_conditions_array}
             query_hash[:include] = @include if @include && !@include.empty?
             query_hash[:order]   = parser.sort_sql if parser.has_sort?
+            logger.info 'Rest query:' + query_hash
             query_hash
           }
         end
