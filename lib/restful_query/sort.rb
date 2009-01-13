@@ -32,6 +32,10 @@ module RestfulQuery
       raise(InvalidDirection, "'#{direction}' is not a valid order direction") unless @direction
     end
     
+    def to_s(join = '-')
+      "#{column}#{join}#{direction.downcase}"
+    end
+            
     def to_sql
       "#{column} #{direction}"
     end

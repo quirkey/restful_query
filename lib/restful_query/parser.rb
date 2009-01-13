@@ -33,6 +33,13 @@ module RestfulQuery
       conditions_values.unshift(conditions_string.join(join_string))
     end
     
+    def to_query_hash
+      hash = @query_hash
+      hash[:join] = @default_join
+      hash[:_sort] = sorts.collect {|s| s.to_s }
+      hash
+    end
+        
     def self.sorts_from_hash(sorts)
       sort_conditions = [sorts].flatten
       sort_conditions.collect {|c| Sort.parse(c) }

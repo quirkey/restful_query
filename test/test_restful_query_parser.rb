@@ -4,7 +4,7 @@ class RestfulQueryParserTest < Test::Unit::TestCase
 
   context "Parser" do
     setup do
-      @base_query_hash = {'created_at' => {'gt' => '1 week ago'}, 'updated_at' => {'lt' => '1 day ago'}, 'title' => {'eq' => 'Test'}, 'other_time' => {'gt' => 'oct 1'}, 'name' => 'Aaron'}
+      @base_query_hash = {'created_at' => {'gt' => '1 week ago', 'lt' => '1 hour ago'}, 'updated_at' => {'lt' => '1 day ago'}, 'title' => {'eq' => 'Test'}, 'other_time' => {'gt' => 'oct 1'}, 'name' => 'Aaron'}
     end
 
     context "from_hash" do
@@ -218,7 +218,7 @@ class RestfulQueryParserTest < Test::Unit::TestCase
           assert_match(/(([a-z_]) (\<|\>|\=|\<\=|\>\=) \? OR)+/,@conditions[0])
         end
       end
-
+      
       context "sorts" do
         setup do
           new_parser_from_hash({'_sort' => ['title-down', 'updated_at-asc']})
