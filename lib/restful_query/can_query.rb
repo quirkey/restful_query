@@ -12,7 +12,7 @@ module RestfulQuery
         @can_query     = true
         module_eval do
           def self.restful_query_parser(query_hash, options = {})
-            RestfulQuery::Parser.new(query_hash.dup, @query_options.merge(options))
+            RestfulQuery::Parser.new(query_hash, @query_options.merge(options))
           end
           
           named_scope :restful_query, lambda {|query_hash| 
