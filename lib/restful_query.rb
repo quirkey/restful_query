@@ -2,13 +2,12 @@ $:.unshift(File.dirname(__FILE__)) unless
   $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
 
 begin
-  require 'rubygems'
   require 'chronic'
   unless defined?(ActiveSupport)
     require 'active_support'
   end
 rescue LoadError
-  warn 'In order to use the time parsing functinalities you must install the Chronic gem: sudo gem install chronic'
+  warn 'In order to use the time parsing functionalities you must install the Chronic gem: sudo gem install chronic'
 end
 
 module RestfulQuery
@@ -19,5 +18,5 @@ end
 
 
 %w{condition sort parser can_query}.each do |lib|
-  require File.join(File.dirname(__FILE__),"restful_query","#{lib}.rb")
+  require File.join("restful_query","#{lib}.rb")
 end
