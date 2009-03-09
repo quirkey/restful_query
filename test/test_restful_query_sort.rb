@@ -29,6 +29,7 @@ class RestfulQuerySortTest < Test::Unit::TestCase
     end
     
     context "parse" do
+      context "with a query hash like condition" do
       setup do
         @sort = RestfulQuery::Sort.parse('long_name_attribute-down')
       end
@@ -40,6 +41,22 @@ class RestfulQuerySortTest < Test::Unit::TestCase
       should "set column and direction" do
         assert_equal 'long_name_attribute', @sort.column
         assert_equal 'DESC', @sort.direction
+      end
+      end
+      
+      context "with a standard SQL like condition" do
+        setup do
+          @sort = RestfulQuery::Sort.parse('long_name_attribute DESC')
+        end
+
+        should "return sort object" do
+          assert @sort.is_a?(RestfulQuery::Sort)
+        end
+
+        should "set column and direction" do
+          assert_equal 'long_name_attribute', @sort.column
+          assert_equal 'DESC', @sort.direction
+        end
       end
     end
     
