@@ -3,6 +3,7 @@ layout: quirkey_code
 title: Restful Query
 github_name: restful_query
 current_version: 0.2.0
+plugin: true
 nav:
   - name: What
     link: "#what"
