@@ -70,7 +70,7 @@ A @column@ is a literal column in the database. You can query across tables by p
 
 An @operator@ is one of the following:
 
-|_.Restful Query|._SQL|._English|
+|_.Restful Query|_.SQL|_.English|
 |lt|<|Less than|
 |gt|>|Greater than|
 |gteq|>=|Greater than or equal to|
