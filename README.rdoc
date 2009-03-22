@@ -1,10 +1,10 @@
 = restful_query
 
-* FIX (url)
+http://github.com/quirkey/restful_query
 
 == DESCRIPTION:
 
-FIX (describe your package)
+RestfulQuery provides a RESTful interface for easily and safely querying ActiveRecord data. 
 
 == FEATURES/PROBLEMS:
 
@@ -20,7 +20,16 @@ FIX (describe your package)
 
 == INSTALL:
 
-* FIX (sudo gem install, anything else)
+To install as a gem:
+
+  sudo gem install restful_query
+  
+or from github:
+
+  sudo gem install quirkey-restful_query -s http://gems.github.com
+  
+To install as a rails plugin
+  
 
 == LICENSE:
 

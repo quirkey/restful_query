@@ -11,7 +11,7 @@ module RestfulQuery
       'lteq' => '<=',
       'eq'   => '=',
       'like' => 'LIKE'
-      }.freeze
+    }.freeze
       
     REVERSE_OPERATOR_MAPPING = {
       '<'    => 'lt', 
