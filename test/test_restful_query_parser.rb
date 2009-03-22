@@ -142,6 +142,40 @@ class RestfulQueryParserTest < Test::Unit::TestCase
         end
 
       end
+      
+      context "with a default_sort" do
+        context "with no sorts defined in the query hash" do
+          setup do
+            new_parser_from_hash({}, {:default_sort => 'created_at DESC'})
+          end
+          
+          should "return parser object" do
+            assert @parser.is_a?(RestfulQuery::Parser)
+          end
+        
+          should "have default sort in sorts" do
+            assert @parser.sorts
+            assert_equal 1, @parser.sorts.length
+            assert_equal 'created_at DESC', @parser.sort_sql
+          end
+        end
+        
+        context "with sorts defined in the query hash" do
+          setup do
+            new_parser_from_hash({'_sort' => 'created_at-up'})
+          end
+
+          should "return parser object" do
+            assert @parser.is_a?(RestfulQuery::Parser)
+          end
+          
+          should "have query hash sorts in sorts and not default sort" do
+            assert @parser.sorts
+            assert_equal 1, @parser.sorts.length
+            assert_equal 'created_at ASC', @parser.sort_sql
+          end
+        end
+      end
     end
 
     context "a loaded parser" do

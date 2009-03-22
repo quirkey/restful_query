@@ -6,6 +6,7 @@ module RestfulQuery
       @options         = options || {}
       @exclude_columns = options[:exclude_columns] ? [options.delete(:exclude_columns)].flatten.collect {|c| c.to_s } : []
       @integer_columns = options[:integer_columns] ? [options.delete(:integer_columns)].flatten.collect {|c| c.to_s } : []
+      @default_sort    = options[:default_sort] ? [Sort.parse(options[:default_sort])] : []
       @query_hash      = (query_hash || {}).dup
       @default_join    = @query_hash.delete(:join) || :and
       extract_sorts_from_conditions
@@ -107,6 +108,7 @@ module RestfulQuery
     
     def extract_sorts_from_conditions
       @sorts = self.class.sorts_from_hash(@query_hash.delete('_sort'))
+      @sorts = @default_sort if @sorts.empty?
     end
 
     def map_hash_to_conditions
