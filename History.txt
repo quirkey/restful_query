@@ -1,3 +1,9 @@
+== 0.2.0 2009-03-20
+
+* 1 major enhancement:
+  * Now includes interface for sorting.
+  * Better documentation on the way.
+
 == 0.0.1 2009-01-11
 
 * 1 major enhancement:

@@ -6,17 +6,11 @@ http://github.com/quirkey/restful_query
 
 RestfulQuery provides a RESTful interface for easily and safely querying ActiveRecord data. 
 
-== FEATURES/PROBLEMS:
+== USAGE:
 
-* FIX (list of features or problems)
+Please see the project homepage for usage and more info:
 
-== SYNOPSIS:
-
-  FIX (code sample of usage)
-
-== REQUIREMENTS:
-
-* FIX (list of requirements)
+http://code.quirkey.com/restful_query
 
 == INSTALL:
 
@@ -30,7 +24,6 @@ or from github:
   
 To install as a rails plugin
   
-
 == LICENSE:
 
 Free for use under the terms of the MIT License - see LICENSE for details

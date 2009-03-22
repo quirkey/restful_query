@@ -11,7 +11,7 @@ rescue LoadError
 end
 
 module RestfulQuery
-  VERSION = '0.1.1'
+  VERSION = '0.2.0'
   
   class Error < RuntimeError; end
 end

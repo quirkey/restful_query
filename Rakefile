@@ -7,10 +7,11 @@ $hoe = Hoe.new('restful_query', RestfulQuery::VERSION) do |p|
   p.developer('Aaron Quint', 'aaron@quirkey.com')
   p.changes              = p.paragraphs_of("History.txt", 0..1).join("\n\n")
   p.rubyforge_name       = 'quirkey'
-  p.description          = 'Simple ActiveRecord queries from a RESTful and safe interface'
-  p.url                  = 'http://github.com/quirkey/restful_query'
+  p.description = p.summary = 'Simple ActiveRecord queries from a RESTful and safe interface'
+  p.url                  = 'http://code.quirkey.com/restful_query'
   p.extra_deps         = [
     ['activesupport','>= 2.2.0'],
+    ['activerecord','>= 2.2.0'],
     ['chronic','>= 0.2.3']
   ]
   p.extra_dev_deps = [
