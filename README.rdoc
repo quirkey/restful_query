@@ -24,6 +24,8 @@ or from github:
   
 To install as a rails plugin
   
+  ./script/plugin install git://github.com/quirkey/restful_query.git
+  
 == LICENSE:
 
 Free for use under the terms of the MIT License - see LICENSE for details
