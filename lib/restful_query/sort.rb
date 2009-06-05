@@ -2,6 +2,8 @@ module RestfulQuery
   class InvalidDirection < Error; end
   
   class Sort
+    include Comparable
+    
     attr_reader :column, :direction
     
     DIRECTIONS = {
@@ -36,6 +38,11 @@ module RestfulQuery
     
     def reverse_direction
       direction == 'ASC' ? 'DESC' : 'ASC'
+    end
+    
+    def ==(other)
+      return false unless other.is_a?(Sort)
+      column == other.column && direction == other.direction
     end
     
     # Makes a roundabout for directions nil -> desc -> asc -> nil
