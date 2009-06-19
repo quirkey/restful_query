@@ -28,6 +28,14 @@ module RestfulQuery
       'LIKE'    => 'like'
     }.freeze
     
+    CONVERTABLE_VALUES = {
+      ':true'  => true,
+      ':false' => false,
+      ':nil'   => nil,
+      ':null'  => nil
+    }.freeze
+    
+    
     def initialize(column, value, operator = '=', options = {})
       @options = {}
       @options = options if options.is_a?(Hash)
@@ -71,8 +79,8 @@ module RestfulQuery
         value.to_i
       elsif options[:chronic]
         Chronic.parse(value.to_s)
-      elsif value == 'nil' || value == 'null'
-        nil
+      elsif value =~ /^\:/ && CONVERTABLE_VALUES.has_key?(value)
+        CONVERTABLE_VALUES[value]
       else
         value
       end

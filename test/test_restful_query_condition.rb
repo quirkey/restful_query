@@ -60,13 +60,23 @@ class RestfulQueryConditionTest < Test::Unit::TestCase
         end
       end
       
-      context "with a value of 'nil'" do
+      context "with a value of ':nil'" do
         setup do
-          @condition = RestfulQuery::Condition.new('created_at', 'nil')
+          @condition = RestfulQuery::Condition.new('created_at', ':nil')
         end
         
         should "convert value to true nil" do
           assert_equal(nil, @condition.value)
+        end
+      end
+      
+      context "with a value of ':true'" do
+        setup do
+          @condition = RestfulQuery::Condition.new('created_at', ':true')
+        end
+        
+        should "convert value to true true" do
+          assert_equal(true, @condition.value)
         end
       end
     end
