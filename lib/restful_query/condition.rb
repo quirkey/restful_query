@@ -10,6 +10,7 @@ module RestfulQuery
       'gteq' => '>=',
       'lteq' => '<=',
       'eq'   => '=',
+      'neq'  => '!=',
       'like' => 'LIKE'
     }.freeze
       
@@ -19,6 +20,7 @@ module RestfulQuery
       '>='   => 'gteq',
       '<='   => 'lteq',
       '='    => 'eq',
+      '!='   => 'neq',
       'LIKE' => 'like'
     }.freeze
     
@@ -26,8 +28,8 @@ module RestfulQuery
       @options = {}
       @options = options if options.is_a?(Hash)
       self.column   = column
-      self.value    = value
       self.operator = operator
+      self.value    = value
     end
     
     def map_operator(operator_to_look_up, reverse = false)
@@ -54,21 +56,18 @@ module RestfulQuery
     end
     
     def to_condition_array
-      parsed_value = if operator == 'LIKE' 
-          "%#{value}%"
-        elsif options[:integer]
-          value.to_i
-        else
-          value
-        end
-      ["#{column} #{operator} ?", parsed_value]
+      ["#{column} #{operator} ?", value]
     end
     
     protected
     def parse_value(value)
-      if options[:chronic]
+      if operator == 'LIKE' 
+        "%#{value}%"
+      elsif options[:integer]
+        value.to_i
+      elsif options[:chronic]
         Chronic.parse(value.to_s)
-      else 
+      else
         value
       end
     end
