@@ -11,17 +11,21 @@ module RestfulQuery
       'lteq' => '<=',
       'eq'   => '=',
       'neq'  => '!=',
+      'is'   => 'IS',
+      'not'  => 'IS NOT',
       'like' => 'LIKE'
     }.freeze
       
     REVERSE_OPERATOR_MAPPING = {
-      '<'    => 'lt', 
-      '>'    => 'gt',  
-      '>='   => 'gteq',
-      '<='   => 'lteq',
-      '='    => 'eq',
-      '!='   => 'neq',
-      'LIKE' => 'like'
+      '<'       => 'lt', 
+      '>'       => 'gt',  
+      '>='      => 'gteq',
+      '<='      => 'lteq',
+      '='       => 'eq',
+      '!='      => 'neq',
+      'IS'      => 'is',
+      'IS NOT'  => 'not',
+      'LIKE'    => 'like'
     }.freeze
     
     def initialize(column, value, operator = '=', options = {})
@@ -67,6 +71,8 @@ module RestfulQuery
         value.to_i
       elsif options[:chronic]
         Chronic.parse(value.to_s)
+      elsif value == 'nil' || value == 'null'
+        nil
       else
         value
       end
