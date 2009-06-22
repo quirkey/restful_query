@@ -19,7 +19,7 @@ class RestfulQueryParserTest < Test::Unit::TestCase
         end
 
         should "have a blank hash for query hash" do
-          assert_equal({}, @parser.query_hash)
+          assert_equal({}, @parser.to_query_hash)
         end
       end
 
@@ -33,7 +33,7 @@ class RestfulQueryParserTest < Test::Unit::TestCase
         end
 
         should "save hash to query_hash" do
-          assert_equal @base_query_hash, @parser.query_hash.to_hash
+          assert_equal @base_query_hash, @parser.to_query_hash
         end
 
         should "save each condition as a condition object" do

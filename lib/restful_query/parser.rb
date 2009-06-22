@@ -1,18 +1,17 @@
 module RestfulQuery
   class Parser
-    attr_reader :query_hash, :exclude_columns, :integer_columns, :options
+    attr_reader :query, :exclude_columns, :integer_columns, :options
 
-    def initialize(query_hash, options = {})
+    def initialize(query, options = {})
       @options         = options || {}
       @exclude_columns = options[:exclude_columns] ? [options.delete(:exclude_columns)].flatten.collect {|c| c.to_s } : []
       @integer_columns = options[:integer_columns] ? [options.delete(:integer_columns)].flatten.collect {|c| c.to_s } : []
       @default_sort    = options[:default_sort] ? [Sort.parse(options[:default_sort])] : []
       @single_sort     = options[:single_sort] || false
-      query_hash     ||= {}
-      @query_hash      = convert_query_hash(query_hash)
-      @default_join    = query_hash.delete(:join) || :and
+      @query           = (query || {}).dup
+      @default_join    = @query.delete(:join) || :and
       extract_sorts_from_conditions
-      map_hash_to_conditions
+      map_conditions
     end
 
     def conditions
@@ -41,9 +40,8 @@ module RestfulQuery
     end
     
     def to_query_hash
-      hash = @query_hash
-      hash['join'] = @default_join
-      hash['_sort'] = sorts.collect {|s| s.to_s }
+      hash = @query
+      hash['_sort'] = sorts.collect {|s| s.to_s } unless sorts.empty?
       hash
     end
         
@@ -113,39 +111,36 @@ module RestfulQuery
     end
     
     def extract_sorts_from_conditions
-      @sorts = self.class.sorts_from_hash(@query_hash.delete('_sort'))
+      @sorts = self.class.sorts_from_hash(@query.delete('_sort'))
       @sorts = @default_sort if @sorts.empty?
     end
 
-    def map_hash_to_conditions
-      @query_hash.each do |column, hash_conditions|
+    def map_conditions
+      conditions = query.delete(:conditions) || query
+      if conditions.is_a?(Hash)
+        conditions_array = []
+        conditions.each do |column, hash_conditions|
+          if hash_conditions.is_a?(Hash)
+            hash_conditions.each do |operator, value|
+              conditions_array << {'column' => column, 'operator' => operator, 'value' => value}
+            end
+          else
+            conditions_array << {'column' => column, 'value' => hash_conditions}
+          end
+        end
+        conditions = conditions_array
+      end
+      # with a normalized array of conditions
+      conditions.each do |condition|
+        column, operator, value = condition['column'], condition['operator'] || 'eq', condition['value']
         unless exclude_columns.include?(column.to_s)
           condition_options = {}
           condition_options[:chronic] = true if chronic_columns.include?(column.to_s)
           condition_options[:integer] = true if integer_columns.include?(column.to_s)
-          if hash_conditions.is_a?(Hash)
-            hash_conditions.each do |operator, value|
-              add_condition_for(column, Condition.new(column, value, operator, condition_options))
-            end
-          else
-            add_condition_for(column, Condition.new(column, hash_conditions, '=', condition_options))
-          end
+          add_condition_for(column, Condition.new(column, value, operator, condition_options))
         end
       end
     end
      
-    def convert_query_hash(query_hash)
-      conditions = query_hash.delete(:conditions) 
-      conditions ||= query_hash
-      return conditions if conditions.is_a?(Hash)
-      # its an array
-      c = {}
-      conditions.each do |condition|
-        c[condition['column']] ||= {}
-        c[condition['column']][condition['operator'] || 'eq'] = condition['value']
-      end
-      c
-    end
-    
   end
 end
