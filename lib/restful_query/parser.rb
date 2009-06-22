@@ -8,8 +8,9 @@ module RestfulQuery
       @integer_columns = options[:integer_columns] ? [options.delete(:integer_columns)].flatten.collect {|c| c.to_s } : []
       @default_sort    = options[:default_sort] ? [Sort.parse(options[:default_sort])] : []
       @single_sort     = options[:single_sort] || false
-      @query_hash      = (query_hash || {}).dup
-      @default_join    = @query_hash.delete(:join) || :and
+      query_hash     ||= {}
+      @query_hash      = convert_query_hash(query_hash)
+      @default_join    = query_hash.delete(:join) || :and
       extract_sorts_from_conditions
       map_hash_to_conditions
     end
@@ -132,6 +133,19 @@ module RestfulQuery
         end
       end
     end
-
+     
+    def convert_query_hash(query_hash)
+      conditions = query_hash.delete(:conditions) 
+      conditions ||= query_hash
+      return conditions if conditions.is_a?(Hash)
+      # its an array
+      c = {}
+      conditions.each do |condition|
+        c[condition['column']] ||= {}
+        c[condition['column']][condition['operator'] || 'eq'] = condition['value']
+      end
+      c
+    end
+    
   end
 end

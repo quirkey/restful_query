@@ -177,6 +177,37 @@ class RestfulQueryParserTest < Test::Unit::TestCase
         end
       end
     end
+    
+    context "from an array of conditions" do
+      setup do
+        @array_of_conditions = [
+          {'column' => 'created_at', 'operator' => 'gt', 'value' => '1 week ago'}, 
+          {'column' => 'created_at', 'operator' => 'lt', 'value' => '1 hour ago'}, 
+          {'column' => 'updated_at', 'operator' => 'lt', 'value' => '1 day ago'}, 
+          {'column' => 'title', 'operator' => 'eq', 'value' => 'Test'}, 
+          {'column' => 'other_time', 'operator' => 'gt', 'value' => 'oct 1'},
+          {'column'  => 'name', 'value' => 'Aaron'}
+        ]
+        @parser = RestfulQuery::Parser.new(:conditions => @array_of_conditions)
+      end
+      
+      should "return parser object" do
+        assert @parser.is_a?(RestfulQuery::Parser)
+      end
+
+      should "save each condition as a condition object" do
+        assert @parser.conditions.is_a?(Array)
+        assert_equal 6, @parser.conditions.length
+        assert @parser.conditions.first.is_a?(RestfulQuery::Condition)
+      end
+
+      should "save condition without operator with default operator" do
+        assert @parser.conditions_for(:name)
+        assert @parser.conditions_for(:name).first.is_a?(RestfulQuery::Condition)
+        assert_equal '=', @parser.conditions_for(:name).first.operator
+      end
+    
+    end
 
     context "a loaded parser" do
       setup do

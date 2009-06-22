@@ -40,7 +40,7 @@ module RestfulQuery
       'Greater than'             => 'gt',
       'Less than or equal to'    => 'lteq',
       'Greater than or equal to' => 'gteq',
-      'Equal to',                => 'eq',
+      'Equal to'                 => 'eq',
       'Not equal to'             => 'neq',
       'Is'                       => 'is',
       'Is not'                   => 'not',
