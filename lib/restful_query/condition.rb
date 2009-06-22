@@ -35,6 +35,18 @@ module RestfulQuery
       ':null'  => nil
     }.freeze
     
+    ENGLISH_OPERATOR_MAPPING = {
+      'Less than'                => 'lt',
+      'Greater than'             => 'gt',
+      'Less than or equal to'    => 'lteq',
+      'Greater than or equal to' => 'gteq',
+      'Equal to',                => 'eq',
+      'Not equal to'             => 'neq',
+      'Is'                       => 'is',
+      'Is not'                   => 'not',
+      'Like'                     => 'like' 
+    }.freeze
+    
     
     def initialize(column, value, operator = '=', options = {})
       @options = {}
