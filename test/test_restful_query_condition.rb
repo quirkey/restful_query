@@ -79,6 +79,34 @@ class RestfulQueryConditionTest < Test::Unit::TestCase
           assert_equal(true, @condition.value)
         end
       end
+      
+      context "with the IN operator" do
+        setup do
+          @condition = RestfulQuery::Condition.new('year', '1995,2005,2006', 'in')
+        end
+        
+        should "assign the operator" do
+          assert_equal 'IN', @condition.operator
+        end
+        
+        should "split values by the delimiter option" do
+          assert_equal ['1995', '2005', '2006'], @condition.value
+        end
+      end
+      
+      context "with the NOT IN operator" do
+        setup do
+          @condition = RestfulQuery::Condition.new('year', '1995|2005|2006', 'notin', :delimiter => '|')
+        end
+        
+        should "assign the operator" do
+          assert_equal 'NOT IN', @condition.operator
+        end
+        
+        should "split values by delimiter option" do
+          assert_equal ['1995', '2005', '2006'], @condition.value
+        end
+      end
     end
 
 

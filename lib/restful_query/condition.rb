@@ -5,27 +5,17 @@ module RestfulQuery
     attr_reader :column, :value, :operator, :options
     
     OPERATOR_MAPPING = {
-      'lt'   => '<',
-      'gt'   => '>',
-      'gteq' => '>=',
-      'lteq' => '<=',
-      'eq'   => '=',
-      'neq'  => '!=',
-      'is'   => 'IS',
-      'not'  => 'IS NOT',
-      'like' => 'LIKE'
-    }.freeze
-      
-    REVERSE_OPERATOR_MAPPING = {
-      '<'       => 'lt', 
-      '>'       => 'gt',  
-      '>='      => 'gteq',
-      '<='      => 'lteq',
-      '='       => 'eq',
-      '!='      => 'neq',
-      'IS'      => 'is',
-      'IS NOT'  => 'not',
-      'LIKE'    => 'like'
+      'lt'    => '<',
+      'gt'    => '>',
+      'gteq'  => '>=',
+      'lteq'  => '<=',
+      'eq'    => '=',
+      'neq'   => '!=',
+      'is'    => 'IS',
+      'not'   => 'IS NOT',
+      'like'  => 'LIKE',
+      'in'    => 'IN',
+      'notin' => 'NOT IN'
     }.freeze
     
     CONVERTABLE_VALUES = {
@@ -57,7 +47,7 @@ module RestfulQuery
     end
     
     def map_operator(operator_to_look_up, reverse = false)
-      mapping = reverse ?  REVERSE_OPERATOR_MAPPING.dup : OPERATOR_MAPPING.dup
+      mapping = reverse ?  OPERATOR_MAPPING.dup.invert : OPERATOR_MAPPING.dup
       return operator_to_look_up if mapping.values.include?(operator_to_look_up)
       found = mapping[operator_to_look_up.to_s]
     end
@@ -87,6 +77,8 @@ module RestfulQuery
     def parse_value(value)
       if operator == 'LIKE' 
         "%#{value}%"
+      elsif ['IN', 'NOT IN'].include?(operator)
+        value = value.split(options[:delimiter] || ',')
       elsif options[:integer]
         value.to_i
       elsif options[:chronic]

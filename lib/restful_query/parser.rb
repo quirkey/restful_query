@@ -137,6 +137,7 @@ module RestfulQuery
           condition_options = {}
           condition_options[:chronic] = true if chronic_columns.include?(column.to_s)
           condition_options[:integer] = true if integer_columns.include?(column.to_s)
+          condition_options.merge!(condition['options'] || {})
           add_condition_for(column, Condition.new(column, value, operator, condition_options))
         end
       end
