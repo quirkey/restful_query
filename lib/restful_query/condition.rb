@@ -42,7 +42,7 @@ module RestfulQuery
     
     def initialize(column, value, operator = '=', options = {})
       @options = {}
-      @options = options if options.is_a?(Hash)
+      self.options  = options if options.is_a?(Hash)
       self.column   = column
       self.operator = operator
       self.value    = value
@@ -67,6 +67,10 @@ module RestfulQuery
       @value = parse_value(value)
     end
     
+    def options=(options)
+      options.each {|k, v| @options[k.to_sym] = v }
+    end
+    
     def to_hash
       {column => {map_operator(operator, true) => value}}
     end
@@ -88,7 +92,7 @@ module RestfulQuery
       if operator == 'LIKE' 
         "%#{value}%"
       elsif ['IN', 'NOT IN'].include?(operator) && !value.is_a?(Array)
-        value = value.split(options[:delimiter] || ',')
+        value.split(options[:delimiter] || ',')
       elsif options[:integer]
         value.to_i
       elsif options[:chronic]
