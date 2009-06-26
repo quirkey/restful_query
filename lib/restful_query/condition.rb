@@ -34,7 +34,9 @@ module RestfulQuery
       'Not equal to'             => 'neq',
       'Is'                       => 'is',
       'Is not'                   => 'not',
-      'Like'                     => 'like' 
+      'Like'                     => 'like',
+      'In'                       => 'in',
+      'Not in'                   => 'notin'
     }.freeze
     
     
