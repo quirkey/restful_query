@@ -92,6 +92,16 @@ class RestfulQueryConditionTest < Test::Unit::TestCase
         should "split values by the delimiter option" do
           assert_equal ['1995', '2005', '2006'], @condition.value
         end
+        
+        context "when the value is already an array" do
+          setup do
+            @condition = RestfulQuery::Condition.new('year', ['1995', '2005', '2006'], 'in')
+          end
+          
+          should "not resplit the value" do
+            assert_equal ['1995', '2005', '2006'], @condition.value
+          end
+        end
       end
       
       context "with the NOT IN operator" do

@@ -77,7 +77,7 @@ module RestfulQuery
     def parse_value(value)
       if operator == 'LIKE' 
         "%#{value}%"
-      elsif ['IN', 'NOT IN'].include?(operator)
+      elsif ['IN', 'NOT IN'].include?(operator) && !value.is_a?(Array)
         value = value.split(options[:delimiter] || ',')
       elsif options[:integer]
         value.to_i
