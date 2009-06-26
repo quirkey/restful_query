@@ -93,6 +93,10 @@ class RestfulQueryConditionTest < Test::Unit::TestCase
           assert_equal ['1995', '2005', '2006'], @condition.value
         end
         
+        should "include parens in placeholder" do
+          assert_equal ["year IN (?)", ['1995', '2005', '2006']], @condition.to_condition_array
+        end
+        
         context "when the value is already an array" do
           setup do
             @condition = RestfulQuery::Condition.new('year', ['1995', '2005', '2006'], 'in')

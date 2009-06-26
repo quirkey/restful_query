@@ -72,7 +72,15 @@ module RestfulQuery
     end
     
     def to_condition_array
-      ["#{column} #{operator} ?", value]
+      ["#{column} #{operator} #{placeholder}", value]
+    end
+    
+    def placeholder
+      if ['IN', 'NOT IN'].include?(operator)
+        '(?)'
+      else
+        '?'
+      end
     end
     
     protected
