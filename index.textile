@@ -91,7 +91,12 @@ An @operator@ is one of the following:
 |gteq|>=|Greater than or equal to|
 |lteq|<=|Less than or equal to|
 |eq|=|Equal to|
+|neq|!=|Not equal to|
 |like|LIKE|Similar to|
+|is|IS|is|
+|is not|IS NOT|is not|
+|in|IN|Is in (set)|
+|notin|NOT IN|Is not in (set)|
 
 Multiple @operators@ can be passed to for a single @column@ like:
 
