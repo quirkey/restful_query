@@ -1,3 +1,16 @@
+== 0.3.0 2009-08-10
+
+* Vast improvements/enhancements
+  * Added Sequel::Dataset extension: restful_query - works like the can_query named_scope
+  * Added IN and NOT IN to Condition operators - value can be split on delimiter option
+  * Changed the default behavior to storing conditions as an array of condition hashes
+  * Added ability to pass an array of :conditions to the parser, see tests for format.
+  * Added English/Human names to condition operators
+  * Added list of CONVERTABLE_VALUES which are prefixed w/ : and are converted to their true ruby counterparts (nil, null, true, etc)
+  * Added operators for IS and IS NOT
+  * Added neq/!= operator to conditions
+  * Added a clear_default_sort! action that deletes the default before switching
+
 == 0.2.0 2009-03-20
 
 * 1 major enhancement:

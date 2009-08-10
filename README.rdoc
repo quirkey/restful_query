@@ -8,7 +8,44 @@ RestfulQuery provides a RESTful interface for easily and safely querying ActiveR
 
 == USAGE:
 
-Please see the project homepage for usage and more info:
+=== Rails/ActiveRecord:
+  
+  # as a gem, in environment.rb
+  config.gem 'restful_query'
+  
+or install the plugin.
+In your model:
+
+  class Post < ActiveRecord::Base
+    can_query
+  end
+
+In your controller:
+  
+  class PostsController < ApplicationController
+    # ...
+    def index
+      @posts = Post.restful_query(params[:query])
+    end
+    # ...
+  end
+
+Now you can query your model via the URL:
+
+  /posts?query[name][like]=jon&query[_sort]=created_at-desc
+
+=== Sequel
+
+Theres also a Sequel extension that works very similar to ActiveRecord::Base.can_query:
+
+  require 'sequel/extensions/restful_query'
+  
+  DB[:posts].restful_query({'name' => {'like' => 'jon'}, '_sort' => 'created_at-desc'})
+  <Sequel::SQLite::Dataset: "SELECT * FROM `posts` WHERE (name LIKE %jon%) ORDER BY `created_at` DESC">
+
+=== More!
+
+Please see the project homepage for detailed usage and info:
 
 http://code.quirkey.com/restful_query
 
