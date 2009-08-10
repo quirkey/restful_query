@@ -2,7 +2,7 @@
 layout: quirkey_code
 title: Restful Query
 github_name: restful_query
-current_version: 0.2.0
+current_version: 0.3.0
 plugin: true
 nav:
   - name: What
@@ -125,6 +125,13 @@ class Book < ActiveRecord::Base
 
 end
 {% endhighlight %}
+
+For 'special values' you can also pass a symbol-like string to ensure the value is converted to a literal.
+
+|:true|_true_|
+|:false|_false_|
+|:nil|_nil_|
+|:null|_nil_|
 
 Restful Query also provides the ability to sort/order results by passing a @_sort@ key to the @restful_query@ named_scope. @_sort@ takes an array of strings with a simple but specific format of:
 
