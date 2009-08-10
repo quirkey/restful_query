@@ -1,9 +1,10 @@
-%w[rubygems rake rake/clean fileutils newgem rubigen].each { |f| require f }
+%w[rubygems rake rake/clean hoe fileutils newgem rubigen].each { |f| require f }
 require File.dirname(__FILE__) + '/lib/restful_query'
 
 # Generate all the Rake tasks
 # Run 'rake -T' to see list of generated tasks (from gem root directory)
-$hoe = Hoe.new('restful_query', RestfulQuery::VERSION) do |p|
+$hoe = Hoe.spec('restful_query') do |p|
+  p.version = RestfulQuery::VERSION
   p.developer('Aaron Quint', 'aaron@quirkey.com')
   p.changes              = p.paragraphs_of("History.txt", 0..1).join("\n\n")
   p.rubyforge_name       = 'quirkey'
