@@ -19,7 +19,7 @@ h2(project_name). {{ page.title }}
 
 h3(#what). What
 
-Restful Query is a module that when included in ActiveRecord supplies an easy and safe way to query a database through a RESTful resource.
+Restful Query is a module that when included in ActiveRecord  or Sequel (as of 0.3.0) supplies an easy and safe way to query a database through a RESTful resource.
 
 h3(#why). Why
 
@@ -35,7 +35,9 @@ Restful Query allows you to query the books by any and as many parameters you wa
 
 h3(#usage). Usage
 
-Currently, Restful Query is tied to ActiveRecord, but porting it to another ORM probably wouldnt be hard.
+RestfulQuery provides extensions for both ActiveRecord and Sequel. The only difference is how to enable the extension.
+
+h4. With ActiveRecord/Rails
 
 Including Restful Query in your Rails project is easy. Install it as a plugin or a gem in your app. 
 
@@ -51,7 +53,19 @@ end
 
 This will add a few methods to your model, notably the named_scope @restful_query@
 
-The restful_query scope takes a hash with a special format and converts it into an ActiveRecord conditions array. The format is intended to be easy to interpret and read within the URL as well as be easy to pass as Rails-like form params.
+h4. With Sequel
+
+RestfulQuery includes an extension for Sequel. Once the gem is installed:
+
+{% highlight ruby %}
+require 'sequel/extensions/restful_query'
+{% endhighlight %}
+
+This extends the Sequel::Dataset class, allowing you to filter/order a dataset using the @restful_query@ method.
+
+h4. General Usage
+
+@restful_query@ takes a hash with a special format and converts it into a conditions array. The format is intended to be easy to interpret and read within the URL as well as be easy to pass as Rails-like form params.
 
 The ruby hash should look something like:
 
