@@ -8,7 +8,7 @@ $hoe = Hoe.spec('restful_query') do |p|
   p.developer('Aaron Quint', 'aaron@quirkey.com')
   p.changes              = p.paragraphs_of("History.txt", 0..1).join("\n\n")
   p.rubyforge_name       = 'quirkey'
-  p.description = p.summary = 'Simple ActiveRecord queries from a RESTful and safe interface'
+  p.description = p.summary = 'Simple ActiveRecord and Sequel queries from a RESTful and safe interface'
   p.url                  = 'http://code.quirkey.com/restful_query'
   p.extra_deps         = [
     ['activesupport','>= 2.2.0'],

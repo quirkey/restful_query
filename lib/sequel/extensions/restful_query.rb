@@ -1,3 +1,5 @@
+require File.join(File.dirname(__FILE__), '..', '..', 'restful_query.rb')
+
 module RestfulQuery
   class Sort
     
