@@ -1,33 +1,31 @@
-%w[rubygems rake rake/clean hoe fileutils newgem rubigen].each { |f| require f }
+%w[rubygems rake rake/clean rake/testtask fileutils].each { |f| require f }
 require File.dirname(__FILE__) + '/lib/restful_query'
 
-# Generate all the Rake tasks
-# Run 'rake -T' to see list of generated tasks (from gem root directory)
-$hoe = Hoe.spec('restful_query') do |p|
-  p.version = RestfulQuery::VERSION
-  p.developer('Aaron Quint', 'aaron@quirkey.com')
-  p.changes              = p.paragraphs_of("History.txt", 0..1).join("\n\n")
-  p.rubyforge_name       = 'quirkey'
-  p.summary              = 'Simple ActiveRecord and Sequel queries from a RESTful and safe interface'
-  p.description          = %q{RestfulQuery provides a simple interface in front of a complex parser to parse specially formatted query hashes into complex SQL queries. It includes ActiveRecord and Sequel extensions.}
-  p.url                  = 'http://code.quirkey.com/restful_query'
-  p.extra_deps         = [
-    ['activesupport','>= 2.2.0'],
-    ['chronic','>= 0.2.3']
-  ]
-  p.extra_dev_deps = [
-    ['newgem', ">= #{::Newgem::VERSION}"],
-    ['Shoulda', '>= 1.2.0']
-  ]
-  
-  p.clean_globs |= %w[**/.DS_Store tmp *.log]
-  path = (p.rubyforge_name == p.name) ? p.rubyforge_name : "\#{p.rubyforge_name}/\#{p.name}"
-  p.remote_rdoc_dir = File.join(path.gsub(/^#{p.rubyforge_name}\/?/,''), 'rdoc')
-  p.rsync_args = '-av --delete --ignore-errors'
+begin
+  require 'jeweler'
+  Jeweler::Tasks.new do |s|
+    s.name = %q{restful_query}
+    s.version = RestfulQuery::VERSION
+    s.authors = ["Aaron Quint"]
+    s.date = %q{2009-08-10}
+    s.summary = 'Simple ActiveRecord and Sequel queries from a RESTful and safe interface'
+    s.description   = %q{RestfulQuery provides a simple interface in front of a complex parser to parse specially formatted query hashes into complex SQL queries. It includes ActiveRecord and Sequel extensions.}
+    s.rubyforge_project = %q{quirkey}
+    s.add_runtime_dependency(%q<activesupport>, [">= 2.2.0"])
+    s.add_runtime_dependency(%q<chronic>, [">= 0.2.3"])
+    s.add_development_dependency(%q<Shoulda>, [">= 1.2.0"])
+  end
+  Jeweler::GemcutterTasks.new
+rescue LoadError
+  puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
 end
 
-require 'newgem/tasks' # load /tasks/*.rake
+Rake::TestTask.new do |t|
+  t.libs << "test"
+  t.test_files = FileList['test/test*.rb']
+  t.verbose = true
+end
+
 Dir['tasks/**/*.rake'].each { |t| load t }
 
-# TODO - want other tests/tasks run by default? Add them to the list
-# task :default => [:spec, :features]
+task :default => :test

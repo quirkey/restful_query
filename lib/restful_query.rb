@@ -17,6 +17,6 @@ module RestfulQuery
 end
 
 
-%w{condition sort parser}.each do |lib|
+%w{condition sort parser can_query}.each do |lib|
   require File.join("restful_query","#{lib}.rb")
 end
