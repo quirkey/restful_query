@@ -54,11 +54,7 @@ http://code.quirkey.com/restful_query
 To install as a gem:
 
   sudo gem install restful_query
-  
-or from github:
-
-  sudo gem install quirkey-restful_query -s http://gems.github.com
-  
+    
 To install as a rails plugin
   
   ./script/plugin install git://github.com/quirkey/restful_query.git

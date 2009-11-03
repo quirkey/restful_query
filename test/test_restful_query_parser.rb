@@ -100,6 +100,35 @@ class RestfulQueryParserTest < Test::Unit::TestCase
           assert_not_equal Chronic.parse('1 day ago').to_s, @parser.conditions_for(:updated_at).first.value.to_s
         end
       end
+      
+      context "with map_columns" do
+        setup do
+          new_parser_from_hash({'section' => 4, '_sort' => 'category-up'}, {:map_columns => {
+            'section' => 'section_id',
+            'category' => 'category_id'
+          }})
+        end
+        
+        should "return parser object" do
+          assert @parser.is_a?(RestfulQuery::Parser)
+        end
+        
+        should "set the map_columns attribute" do
+          assert @parser.map_columns.is_a?(Hash)
+        end
+        
+        should "map condition column" do
+          assert @parser.conditions_for('section')
+          assert_equal 'section_id', @parser.conditions_for('section').first.column
+        end
+        
+        should "map sort column" do
+          @sort = @parser.sorts.first 
+          assert @sort.is_a?(RestfulQuery::Sort)
+          assert_equal 'ASC', @sort.direction
+          assert_equal 'category_id', @sort.column
+        end
+      end
 
       context "with sort as a single string" do
         setup do
