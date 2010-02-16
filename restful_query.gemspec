@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{restful_query}
-  s.version = "0.3.0"
+  s.version = "0.3.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Aaron Quint"]
-  s.date = %q{2009-12-03}
+  s.date = %q{2010-02-16}
   s.description = %q{RestfulQuery provides a simple interface in front of a complex parser to parse specially formatted query hashes into complex SQL queries. It includes ActiveRecord and Sequel extensions.}
   s.extra_rdoc_files = [
     "LICENSE",

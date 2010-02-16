@@ -1,3 +1,9 @@
+== 0.3.1 2010-02-16
+
+* Parser takes a :map_columns option which maps aliases column names
+* The parser now strips all conditions with blank values. If you actually want
+to compare on a blank value, use the convertable value ':blank'
+
 == 0.3.0 2009-08-10
 
 * Vast improvements/enhancements

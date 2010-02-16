@@ -7,7 +7,6 @@ begin
     s.name = %q{restful_query}
     s.version = RestfulQuery::VERSION
     s.authors = ["Aaron Quint"]
-    s.date = %q{2009-08-10}
     s.summary = 'Simple ActiveRecord and Sequel queries from a RESTful and safe interface'
     s.description   = %q{RestfulQuery provides a simple interface in front of a complex parser to parse specially formatted query hashes into complex SQL queries. It includes ActiveRecord and Sequel extensions.}
     s.rubyforge_project = %q{quirkey}
