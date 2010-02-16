@@ -132,7 +132,7 @@ module RestfulQuery
       # with a normalized array of conditions
       conditions.each do |condition|
         column, operator, value = condition['column'], condition['operator'] || 'eq', condition['value']
-        unless exclude_columns.include?(column.to_s)
+        unless exclude_columns.include?(column.to_s) || value == ''
           condition_options = {}
           condition_options[:chronic] = true if chronic_columns.include?(column.to_s)
           condition_options[:integer] = true if integer_columns.include?(column.to_s)

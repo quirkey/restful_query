@@ -80,6 +80,16 @@ class RestfulQueryConditionTest < Test::Unit::TestCase
         end
       end
       
+      context "with a value of ':blank'" do
+        setup do
+          @condition = RestfulQuery::Condition.new('created_at', ':blank')
+        end
+        
+        should "convert value to true true" do
+          assert_equal('', @condition.value)
+        end
+      end
+      
       context "with the IN operator" do
         setup do
           @condition = RestfulQuery::Condition.new('year', '1995,2005,2006', 'in')

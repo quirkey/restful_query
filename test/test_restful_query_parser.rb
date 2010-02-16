@@ -101,6 +101,21 @@ class RestfulQueryParserTest < Test::Unit::TestCase
         end
       end
       
+      context "with blank values" do
+        setup do
+          new_parser_from_hash({'isblank' => ''})
+        end
+
+        should "return parser object" do
+          assert @parser.is_a?(RestfulQuery::Parser)
+        end
+
+        should "not include conditions for blank values" do
+          assert @parser.conditions_for('created_at')
+          assert_nil @parser.conditions_for('isblank')
+        end
+      end
+      
       context "with map_columns" do
         setup do
           new_parser_from_hash({'section' => 4, '_sort' => 'category-up'}, {:map_columns => {

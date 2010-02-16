@@ -22,7 +22,9 @@ module RestfulQuery
       ':true'  => true,
       ':false' => false,
       ':nil'   => nil,
-      ':null'  => nil
+      ':null'  => nil,
+      ':blank' => '',
+      ':empty' => ''
     }.freeze
     
     ENGLISH_OPERATOR_MAPPING = {
