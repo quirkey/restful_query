@@ -2,7 +2,8 @@ require 'test/unit'
 require 'rubygems'
 require 'shoulda'
 
-require File.join(File.dirname(__FILE__), '..', 'lib','restful_query.rb')
+$LOAD_PATH.unshift(File.join(File.expand_path(File.dirname(__FILE__)), '..'))
+require 'lib/restful_query'
 
 
 unless defined?(ActiveRecord)
@@ -14,12 +15,12 @@ unless defined?(ActiveRecord)
         def protected_attributes
           []
         end
-        
+
         def named_scope(name, options = {})
         end
       end
       self.pluralize_table_names = true
-      
+
       include RestfulQuery::CanQuery
     end
   end
@@ -30,5 +31,5 @@ class ClassWithQuery < ActiveRecord::Base
 end
 
 class ClassWithoutQuery < ActiveRecord::Base
-  
+
 end
