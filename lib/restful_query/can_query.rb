@@ -18,6 +18,7 @@ module RestfulQuery
           scope_meth = self.respond_to?(:scope) ? :scope : :named_scope
 
           send(scope_meth, :restful_query, lambda {|query_hash|
+            return {} if query_hash.blank? || query_hash.empty?
             parser = self.restful_query_parser(query_hash)
             query_hash = {}
             query_hash[:conditions] = parser.to_conditions_array if parser.has_conditions?
