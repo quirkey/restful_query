@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{restful_query}
-  s.version = "0.3.2"
+  s.version = "0.3.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Aaron Quint"]
-  s.date = %q{2011-04-23}
+  s.date = %q{2011-05-17}
   s.description = %q{RestfulQuery provides a simple interface in front of a complex parser to parse specially formatted query hashes into complex SQL queries. It includes ActiveRecord and Sequel extensions.}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
     "lib/restful_query/can_query.rb",
     "lib/restful_query/condition.rb",
     "lib/restful_query/parser.rb",
+    "lib/restful_query/rails.rb",
     "lib/restful_query/sort.rb",
     "lib/sequel/extensions/restful_query.rb",
     "rails/init.rb",
@@ -40,13 +41,6 @@ Gem::Specification.new do |s|
   s.rubyforge_project = %q{quirkey}
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{Simple ActiveRecord and Sequel queries from a RESTful and safe interface}
-  s.test_files = [
-    "test/test_helper.rb",
-    "test/test_restful_query_can_query.rb",
-    "test/test_restful_query_condition.rb",
-    "test/test_restful_query_parser.rb",
-    "test/test_restful_query_sort.rb"
-  ]
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
