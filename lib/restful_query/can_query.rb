@@ -15,7 +15,7 @@ module RestfulQuery
             RestfulQuery::Parser.new(query_hash, @query_options.merge(options))
           end
 
-          scope_meth = self.respond_to?(:scope) ? :scope : :named_scope
+          scope_meth = self.respond_to?(:where) ? :scope : :named_scope
 
           send(scope_meth, :restful_query, lambda {|query_hash|
             return {} if query_hash.blank? || query_hash.empty?
