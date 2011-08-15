@@ -1,15 +1,16 @@
 module RestfulQuery
   class Parser
-    attr_reader :query, :exclude_columns, :map_columns, :integer_columns, :options
+    attr_reader :query, :exclude_columns, :map_columns, :integer_columns, :options, :default_sort_options
 
     def initialize(query, options = {})
       @options         = options || {}
       @exclude_columns = columns_from_options(:exclude, options)
       @integer_columns = columns_from_options(:integer, options)
       @map_columns     = options[:map_columns] || {}
-      @default_sort    = options[:default_sort] ? [Sort.parse(options[:default_sort])] : []
-      @single_sort     = options[:single_sort] || false
+      @single_sort     = options[:single_sort] || true
+      @default_sort_options = options[:sort_options] || {}
       @query           = (query || {}).dup
+      @query['_sort'] ||= options[:default_sort] if options[:default_sort]
       @default_join    = @query.delete(:join) || :and
       extract_sorts_from_conditions
       map_conditions
@@ -18,7 +19,7 @@ module RestfulQuery
     def conditions
       conditions_hash.values.flatten
     end
-    
+
     def has_conditions?
       !conditions.empty?
     end
@@ -32,46 +33,46 @@ module RestfulQuery
       join_string = (join == :or) ? ' OR ' : ' AND '
       conditions_string = []
       conditions_values = []
-      conditions.each do |c| 
+      conditions.each do |c|
         ca = c.to_condition_array
         conditions_string << ca[0]
         conditions_values << ca[1]
       end
       conditions_values.unshift(conditions_string.join(join_string))
     end
-    
+
     def to_query_hash
       hash = @query
       hash['_sort'] = sorts.collect {|s| s.to_s } unless sorts.empty?
       hash
     end
-            
+
     def sort_sql
       @sorts.collect {|s| s.to_sql }.join(', ')
     end
-    
+
     def has_sort?
       !sorts.empty?
     end
-    
+
     def sorts
       @sorts ||= []
     end
-    
+
     def sorted_columns
       sorts.collect {|s| s.column }
     end
-    
+
     def sorted_by?(column_name)
       column = map_column(column_name)
       sorted_columns.include?(column.to_s)
     end
-    
+
     def sort(column_name)
       column = map_column(column_name)
       sorts.detect {|s| s && s.column == column }
     end
-    
+
     def set_sort(column_name, direction)
       column = map_column(column_name)
       if new_sort = self.sort(column_name)
@@ -86,7 +87,7 @@ module RestfulQuery
       end
       new_sort
     end
-    
+
     def clear_default_sort!
       @sorts.reject! {|s| s == @default_sort.first }
     end
@@ -108,7 +109,7 @@ module RestfulQuery
         []
       end
     end
-    
+
     def extract_sorts_from_conditions
       @sorts = sorts_from_hash(@query.delete('_sort'))
       @sorts = @default_sort if @sorts.empty?
@@ -142,25 +143,26 @@ module RestfulQuery
         end
       end
     end
-     
+
     def sorts_from_hash(sorts)
       sort_conditions = [sorts].flatten.compact
-      sort_conditions.collect do |c| 
+      sort_conditions.collect do |c|
         s = Sort.parse(c)
         s.column = map_column(s.column)
+        s.options = default_sort_options
         s
       end
-    end 
-    
+    end
+
     def columns_from_options(column_type, options)
       option = "#{column_type}_columns".to_sym
       options[option] ? [options.delete(option)].flatten.collect {|c| c.to_s } : []
     end
-    
+
     def map_column(column_name)
       map_columns[column_name.to_s] || column_name.to_s
     end
-    
-    
+
+
   end
 end

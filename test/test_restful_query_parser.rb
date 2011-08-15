@@ -100,7 +100,7 @@ class RestfulQueryParserTest < Test::Unit::TestCase
           assert_not_equal Chronic.parse('1 day ago').to_s, @parser.conditions_for(:updated_at).first.value.to_s
         end
       end
-      
+
       context "with blank values" do
         setup do
           new_parser_from_hash({'isblank' => ''})
@@ -115,7 +115,7 @@ class RestfulQueryParserTest < Test::Unit::TestCase
           assert_nil @parser.conditions_for('isblank')
         end
       end
-      
+
       context "with map_columns" do
         setup do
           new_parser_from_hash({'section' => 4, '_sort' => 'category-up'}, {:map_columns => {
@@ -123,22 +123,22 @@ class RestfulQueryParserTest < Test::Unit::TestCase
             'category' => 'category_id'
           }})
         end
-        
+
         should "return parser object" do
           assert @parser.is_a?(RestfulQuery::Parser)
         end
-        
+
         should "set the map_columns attribute" do
           assert @parser.map_columns.is_a?(Hash)
         end
-        
+
         should "map condition column" do
           assert @parser.conditions_for('section')
           assert_equal 'section_id', @parser.conditions_for('section').first.column
         end
-        
+
         should "map sort column" do
-          @sort = @parser.sorts.first 
+          @sort = @parser.sorts.first
           assert @sort.is_a?(RestfulQuery::Sort)
           assert_equal 'ASC', @sort.direction
           assert_equal 'category_id', @sort.column
@@ -155,7 +155,7 @@ class RestfulQueryParserTest < Test::Unit::TestCase
         end
 
         should "parse sort string" do
-          @sort = @parser.sorts.first 
+          @sort = @parser.sorts.first
           assert @sort.is_a?(RestfulQuery::Sort)
           assert_equal 'ASC', @sort.direction
           assert_equal 'created_at', @sort.column
@@ -184,26 +184,41 @@ class RestfulQueryParserTest < Test::Unit::TestCase
             assert sort.is_a?(RestfulQuery::Sort)
           end
         end
-
       end
-      
+
+      context "with sort options" do
+        setup do
+          new_parser_from_hash({'_sort' => ['created_at-up']}, :sort_options => {:nulls => :first})
+        end
+
+        should "return parser object" do
+          assert @parser.is_a?(RestfulQuery::Parser)
+        end
+
+        should "add sorts to sorts" do
+          assert @parser.sorts
+          assert_equal 1, @parser.sorts.length
+          assert_equal 'created_at ASC NULLS FIRST', @parser.sort_sql
+        end
+      end
+
       context "with a default_sort" do
         context "with no sorts defined in the query hash" do
           setup do
             new_parser_from_hash({}, {:default_sort => 'created_at DESC'})
           end
-          
+
           should "return parser object" do
             assert @parser.is_a?(RestfulQuery::Parser)
           end
-        
+
           should "have default sort in sorts" do
             assert @parser.sorts
             assert_equal 1, @parser.sorts.length
             assert_equal 'created_at DESC', @parser.sort_sql
           end
         end
-        
+
         context "with sorts defined in the query hash" do
           setup do
             new_parser_from_hash({'_sort' => 'created_at-up'})
@@ -212,7 +227,7 @@ class RestfulQueryParserTest < Test::Unit::TestCase
           should "return parser object" do
             assert @parser.is_a?(RestfulQuery::Parser)
           end
-          
+
           should "have query hash sorts in sorts and not default sort" do
             assert @parser.sorts
             assert_equal 1, @parser.sorts.length
@@ -221,20 +236,20 @@ class RestfulQueryParserTest < Test::Unit::TestCase
         end
       end
     end
-    
+
     context "from an array of conditions" do
       setup do
         @array_of_conditions = [
-          {'column' => 'created_at', 'operator' => 'gt', 'value' => '1 week ago'}, 
-          {'column' => 'created_at', 'operator' => 'lt', 'value' => '1 hour ago'}, 
-          {'column' => 'updated_at', 'operator' => 'lt', 'value' => '1 day ago'}, 
-          {'column' => 'title', 'operator' => 'eq', 'value' => 'Test'}, 
+          {'column' => 'created_at', 'operator' => 'gt', 'value' => '1 week ago'},
+          {'column' => 'created_at', 'operator' => 'lt', 'value' => '1 hour ago'},
+          {'column' => 'updated_at', 'operator' => 'lt', 'value' => '1 day ago'},
+          {'column' => 'title', 'operator' => 'eq', 'value' => 'Test'},
           {'column' => 'other_time', 'operator' => 'gt', 'value' => 'oct 1'},
           {'column'  => 'name', 'value' => 'Aaron'}
         ]
         @parser = RestfulQuery::Parser.new(:conditions => @array_of_conditions)
       end
-      
+
       should "return parser object" do
         assert @parser.is_a?(RestfulQuery::Parser)
       end
@@ -250,7 +265,7 @@ class RestfulQueryParserTest < Test::Unit::TestCase
         assert @parser.conditions_for(:name).first.is_a?(RestfulQuery::Condition)
         assert_equal '=', @parser.conditions_for(:name).first.operator
       end
-    
+
     end
 
     context "a loaded parser" do
@@ -327,45 +342,45 @@ class RestfulQueryParserTest < Test::Unit::TestCase
           assert_match(/(([a-z_]) (\<|\>|\=|\<\=|\>\=) \? OR)+/,@conditions[0])
         end
       end
-      
+
       context "to_query_hash" do
         context "with no altering" do
           setup do
             @query_hash = @parser.to_query_hash
           end
-          
+
           should "return hash" do
             assert @query_hash.is_a?(Hash)
           end
-      
+
           should "return initial query hash" do
             assert_equal({'gt' => '1 week ago', 'lt' => '1 hour ago'}, @query_hash['created_at'])
           end
         end
-        
+
         context "with altered sorts" do
           setup do
             @parser.set_sort('title', 'up')
             @parser.set_sort('created_at', 'down')
             @query_hash = @parser.to_query_hash
           end
-          
+
           should "include unaltered sort conditions" do
             assert_equal({'gt' => '1 week ago', 'lt' => '1 hour ago'}, @query_hash['created_at'])
           end
-          
+
           should "include altered sorts" do
             assert_equal(['title-asc','created_at-desc'], @query_hash['_sort'])
           end
         end
       end
-      
+
       context "sorts" do
         setup do
           new_parser_from_hash({'_sort' => ['title-down', 'updated_at-asc']})
-          @sorts = @parser.sorts 
+          @sorts = @parser.sorts
         end
-        
+
         should "return an array of sort objects" do
           assert @sorts
           assert_equal 2, @sorts.length
@@ -373,7 +388,7 @@ class RestfulQueryParserTest < Test::Unit::TestCase
             assert sort.is_a?(RestfulQuery::Sort)
           end
         end
-        
+
         context "sorted_columns" do
           should "return an array of columns" do
             @sorted_columns = @parser.sorted_columns
@@ -381,73 +396,73 @@ class RestfulQueryParserTest < Test::Unit::TestCase
             assert @sorted_columns.include?('title')
           end
         end
-        
+
         context "sorted_by?" do
           should "return true if column is sorted" do
             assert @parser.sorted_by?('title')
           end
-          
+
           should "return false if column is not sorted" do
             assert !@parser.sorted_by?('created_at')
           end
         end
-        
+
         context "sort()" do
           should "return Sort object if column is sorted" do
             sort = @parser.sort('title')
             assert sort.is_a?(RestfulQuery::Sort)
             assert_equal 'title', sort.column
           end
-          
+
           should "return nil if col" do
             assert_nil @parser.sort('created_at')
           end
         end
-        
+
         context "set_sort" do
-          context "with an existing sort" do            
+          context "with an existing sort" do
             setup do
               @parser.set_sort('title','up')
             end
-            
+
             should "not add new sort" do
               assert_equal 2, @parser.sorts.length
             end
-            
+
             should "update sort direction" do
               assert_equal 'ASC', @parser.sort('title').direction
             end
           end
-          
+
           context "with direction: nil" do
             setup do
               @parser.set_sort('title', nil)
             end
-            
+
             should "remove sort" do
               assert_equal 1, @parser.sorts.length
               assert !@parser.sorted_by?('title')
             end
           end
-          
+
           context "with a new sort" do
             setup do
               @parser.set_sort('name', 'down')
             end
-            
+
             should "add sort to sorts" do
               assert_equal 3, @parser.sorts.length
             end
-            
+
             should "set sort direction" do
               assert_equal 'DESC', @parser.sort('name').direction
             end
           end
-          
+
         end
-        
+
       end
-      
+
 
       context "sort_sql" do
         should "join order with ," do
