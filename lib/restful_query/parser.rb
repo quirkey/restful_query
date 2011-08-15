@@ -10,7 +10,7 @@ module RestfulQuery
       @single_sort     = options[:single_sort] || true
       @default_sort_options = options[:sort_options] || {}
       @query           = (query || {}).dup
-      @default_sort    = options[:default_sort] ? make_sort(options[:default_sort]) : []
+      @default_sort    = options[:default_sort] ? [make_sort(options[:default_sort])] : []
       @default_join    = @query.delete(:join) || :and
       extract_sorts_from_conditions
       map_conditions
