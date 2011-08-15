@@ -1,3 +1,9 @@
+== 0.3.4 2011-08-15
+
+* Added support for extra options to sort. Specifically this allows you to do NULLS FIRST/LAST
+* You can supply :sort_options => to the restful query parser that will get added to all sorts
+* Changed single_sort => true to the default
+
 == 0.3.3 2011-05-15
 
 * Added 'restful_query/rails' for bundler requires
