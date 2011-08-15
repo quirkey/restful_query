@@ -1,3 +1,7 @@
+== 0.3.5 2011-08-15
+
+* Too quick to release the last one. Fixed now.
+
 == 0.3.4 2011-08-15
 
 * Added support for extra options to sort. Specifically this allows you to do NULLS FIRST/LAST
