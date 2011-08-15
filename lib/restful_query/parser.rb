@@ -10,7 +10,7 @@ module RestfulQuery
       @single_sort     = options[:single_sort] || true
       @default_sort_options = options[:sort_options] || {}
       @query           = (query || {}).dup
-      @query['_sort'] ||= options[:default_sort] if options[:default_sort]
+      @default_sort    = options[:default_sort] ? make_sort(options[:default_sort]) : []
       @default_join    = @query.delete(:join) || :and
       extract_sorts_from_conditions
       map_conditions
@@ -82,7 +82,7 @@ module RestfulQuery
           new_sort.direction = direction
         end
       else
-        new_sort = Sort.new(column, direction)
+        new_sort = make_sort(column, direction)
         self.sorts << new_sort
       end
       new_sort
@@ -147,11 +147,15 @@ module RestfulQuery
     def sorts_from_hash(sorts)
       sort_conditions = [sorts].flatten.compact
       sort_conditions.collect do |c|
-        s = Sort.parse(c)
-        s.column = map_column(s.column)
-        s.options = default_sort_options
-        s
+        make_sort(c)
       end
+    end
+
+    def make_sort(*condition)
+      s = Sort.parse(condition.flatten.join(' '))
+      s.column = map_column(s.column)
+      s.options = default_sort_options
+      s
     end
 
     def columns_from_options(column_type, options)
