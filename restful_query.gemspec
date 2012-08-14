@@ -4,13 +4,13 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{restful_query}
-  s.version = "0.3.5"
+  s.name = "restful_query"
+  s.version = "0.3.6"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Aaron Quint"]
-  s.date = %q{2011-08-15}
-  s.description = %q{RestfulQuery provides a simple interface in front of a complex parser to parse specially formatted query hashes into complex SQL queries. It includes ActiveRecord and Sequel extensions.}
+  s.date = "2012-08-14"
+  s.description = "RestfulQuery provides a simple interface in front of a complex parser to parse specially formatted query hashes into complex SQL queries. It includes ActiveRecord and Sequel extensions."
   s.extra_rdoc_files = [
     "LICENSE",
     "README.rdoc"
@@ -38,9 +38,9 @@ Gem::Specification.new do |s|
     "test/test_restful_query_sort.rb"
   ]
   s.require_paths = ["lib"]
-  s.rubyforge_project = %q{quirkey}
-  s.rubygems_version = %q{1.6.2}
-  s.summary = %q{Simple ActiveRecord and Sequel queries from a RESTful and safe interface}
+  s.rubyforge_project = "quirkey"
+  s.rubygems_version = "1.8.24"
+  s.summary = "Simple ActiveRecord and Sequel queries from a RESTful and safe interface"
 
   if s.respond_to? :specification_version then
     s.specification_version = 3
