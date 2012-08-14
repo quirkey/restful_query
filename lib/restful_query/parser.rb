@@ -9,7 +9,7 @@ module RestfulQuery
       @map_columns     = options[:map_columns] || {}
       @single_sort     = options[:single_sort] || true
       @default_sort_options = options[:sort_options] || {}
-      @query           = (query || {}).dup
+      @query           = (!query || query.empty? || query.to_s =~ /^\s*$/ ? {} : query).dup
       @default_sort    = options[:default_sort] ? [make_sort(options[:default_sort])] : []
       @default_join    = @query.delete(:join) || :and
       extract_sorts_from_conditions

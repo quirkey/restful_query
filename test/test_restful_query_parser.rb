@@ -23,6 +23,20 @@ class RestfulQueryParserTest < Test::Unit::TestCase
         end
       end
 
+      context "without query but options" do
+        setup do
+          @parser = RestfulQuery::Parser.new(' ', :default_sort => 'created_at ASC')
+        end
+
+        should "return Parser object" do
+          assert @parser.is_a?(RestfulQuery::Parser)
+        end
+
+        should "have include options" do
+          assert_equal({'_sort' => ['created_at-asc']}, @parser.to_query_hash)
+        end
+      end
+
       context "with a hash of columns and operations" do
         setup do
           new_parser_from_hash
