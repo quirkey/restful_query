@@ -1,9 +1,10 @@
-require 'rubygems'
-require 'minitest/autorun'
-require 'shoulda'
+$LOAD_PATH.unshift(File.join(File.expand_path(File.dirname(__FILE__)), "../lib"))
 
-$LOAD_PATH.unshift(File.join(File.expand_path(File.dirname(__FILE__)), '../lib'))
-require 'restful_query'
+require "rubygems"
+require "minitest/autorun"
+require "shoulda"
+
+require "restful_query"
 
 
 unless defined?(ActiveRecord)
