@@ -4,7 +4,22 @@ class RestfulQuery::ParserTest < Minitest::Test
 
   context "Parser" do
     setup do
-      @base_query_hash = {'created_at' => {'gt' => '1 week ago', 'lt' => '1 hour ago'}, 'updated_at' => {'lt' => '1 day ago'}, 'title' => {'eq' => 'Test'}, 'other_time' => {'gt' => 'oct 1'}, 'name' => 'Aaron'}
+      @base_query_hash = {
+        'created_at' => {
+          'gt' => '1 week ago',
+          'lt' => '1 hour ago'
+        },
+        'updated_at' => {
+          'lt' => '1 day ago'
+        },
+        'title' => {
+          'eq' => 'Test'
+        },
+        'other_time' => {
+          'gt' => 'oct 1'
+        },
+        'name' => 'Aaron'
+      }
     end
 
     context "from_hash" do
