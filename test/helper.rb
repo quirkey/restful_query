@@ -2,7 +2,7 @@ $LOAD_PATH.unshift(File.join(File.expand_path(File.dirname(__FILE__)), "../lib")
 
 require "rubygems"
 require "minitest/autorun"
-require "shoulda"
+require "shoulda-context"
 
 require "restful_query"
 
