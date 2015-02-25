@@ -14,7 +14,7 @@ begin
     s.add_runtime_dependency(%q<chronic>, ["~>0.10", ">= 0.10.2"])
     s.add_development_dependency(%q<rake>, ["~>10.4", ">= 10.4.2"])
     s.add_development_dependency(%q<minitest>, ["~> 5.5", ">= 5.5.0"])
-    s.add_development_dependency(%q<shoulda>, [">= 2.0.0"])
+    s.add_development_dependency(%q<shoulda>, [">= 2.9.0"])
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
