@@ -11,8 +11,10 @@ begin
     s.description   = %q{RestfulQuery provides a simple interface in front of a complex parser to parse specially formatted query hashes into complex SQL queries. It includes ActiveRecord and Sequel extensions.}
     s.rubyforge_project = %q{quirkey}
     s.add_runtime_dependency(%q<activesupport>, [">= 2.2.0"])
-    s.add_runtime_dependency(%q<chronic>, [">= 0.2.3"])
-    s.add_development_dependency(%q<Shoulda>, [">= 1.2.0"])
+    s.add_runtime_dependency(%q<chronic>, ["~>0.10", ">= 0.10.2"])
+    s.add_development_dependency(%q<rake>, ["~>10.4", ">= 10.4.2"])
+    s.add_development_dependency(%q<minitest>, ["~> 5.5", ">= 5.5.0"])
+    s.add_development_dependency(%q<shoulda>, ["~>3.5", ">= 3.5.0"])
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
