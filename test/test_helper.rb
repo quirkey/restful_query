@@ -1,9 +1,9 @@
-require 'test/unit'
 require 'rubygems'
+require 'minitest/autorun'
 require 'shoulda'
 
-$LOAD_PATH.unshift(File.join(File.expand_path(File.dirname(__FILE__)), '..'))
-require 'lib/restful_query'
+$LOAD_PATH.unshift(File.join(File.expand_path(File.dirname(__FILE__)), '../lib'))
+require 'restful_query'
 
 
 unless defined?(ActiveRecord)

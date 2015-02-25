@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class RestfulQueryParserTest < Test::Unit::TestCase
+class RestfulQueryParserTest < Minitest::Test
 
   context "Parser" do
     setup do
@@ -110,8 +110,8 @@ class RestfulQueryParserTest < Test::Unit::TestCase
         end
 
         should "not parse created at/updated at if not specified" do
-          assert_not_equal Chronic.parse('1 week ago').to_s, @parser.conditions_for(:created_at).first.value.to_s
-          assert_not_equal Chronic.parse('1 day ago').to_s, @parser.conditions_for(:updated_at).first.value.to_s
+          refute_equal Chronic.parse('1 week ago').to_s, @parser.conditions_for(:created_at).first.value.to_s
+          refute_equal Chronic.parse('1 day ago').to_s, @parser.conditions_for(:updated_at).first.value.to_s
         end
       end
 
