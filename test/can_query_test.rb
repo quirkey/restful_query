@@ -1,6 +1,6 @@
-require File.dirname(__FILE__) + '/test_helper.rb'
+require "helper"
 
-class TestRestfulQueryCanQuery < Minitest::Test
+class RestfulQuery::CanQueryTest < Minitest::Test
 
   context "CanQuery" do
     context "A class with the can_query macro" do

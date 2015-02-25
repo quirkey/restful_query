@@ -1,6 +1,6 @@
-require 'test_helper'
+require "helper"
 
-class RestfulQueryParserTest < Minitest::Test
+class RestfulQuery::ParserTest < Minitest::Test
 
   context "Parser" do
     setup do

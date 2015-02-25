@@ -1,6 +1,6 @@
-require 'test_helper'
+require "helper"
 
-class RestfulQuerySortTest < Minitest::Test
+class RestfulQuery::SortTest < Minitest::Test
 
   context "Sort" do
     context "initializing" do
