@@ -12,6 +12,7 @@ begin
     s.rubyforge_project = %q{quirkey}
     s.add_runtime_dependency(%q<activesupport>, [">= 2.2.0"])
     s.add_runtime_dependency(%q<chronic>, [">= 0.2.3"])
+    s.add_development_dependency(%q<appraisal>, ["~>1.0", ">= 1.0.2"])
     s.add_development_dependency(%q<rake>, ["~>10.4", ">= 10.4.2"])
     s.add_development_dependency(%q<minitest>, ["~> 5.5", ">= 5.5.0"])
     s.add_development_dependency(%q<shoulda-context>, ["~> 1.2", ">= 1.2.1"])
