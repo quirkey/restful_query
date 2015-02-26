@@ -1,6 +1,6 @@
-require 'test_helper'
+require "helper"
 
-class RestfulQuerySortTest < Test::Unit::TestCase
+class RestfulQuery::SortTest < Minitest::Test
 
   context "Sort" do
     context "initializing" do
@@ -38,7 +38,7 @@ class RestfulQuerySortTest < Test::Unit::TestCase
 
       context "with an invalid direction" do
         should "raise error" do
-          assert_raise(RestfulQuery::InvalidDirection) do
+          assert_raises(RestfulQuery::InvalidDirection) do
             RestfulQuery::Sort.new('column', 'blarg')
           end
         end

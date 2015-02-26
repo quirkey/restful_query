@@ -1,6 +1,6 @@
-require 'test_helper'
+require "helper"
 
-class RestfulQueryConditionTest < Test::Unit::TestCase
+class RestfulQuery::ConditionTest < Minitest::Test
 
   context "Condition" do
 

@@ -1,10 +1,25 @@
-require 'test_helper'
+require "helper"
 
-class RestfulQueryParserTest < Test::Unit::TestCase
+class RestfulQuery::ParserTest < Minitest::Test
 
   context "Parser" do
     setup do
-      @base_query_hash = {'created_at' => {'gt' => '1 week ago', 'lt' => '1 hour ago'}, 'updated_at' => {'lt' => '1 day ago'}, 'title' => {'eq' => 'Test'}, 'other_time' => {'gt' => 'oct 1'}, 'name' => 'Aaron'}
+      @base_query_hash = {
+        'created_at' => {
+          'gt' => '1 week ago',
+          'lt' => '1 hour ago'
+        },
+        'updated_at' => {
+          'lt' => '1 day ago'
+        },
+        'title' => {
+          'eq' => 'Test'
+        },
+        'other_time' => {
+          'gt' => 'oct 1'
+        },
+        'name' => 'Aaron'
+      }
     end
 
     context "from_hash" do
@@ -110,8 +125,8 @@ class RestfulQueryParserTest < Test::Unit::TestCase
         end
 
         should "not parse created at/updated at if not specified" do
-          assert_not_equal Chronic.parse('1 week ago').to_s, @parser.conditions_for(:created_at).first.value.to_s
-          assert_not_equal Chronic.parse('1 day ago').to_s, @parser.conditions_for(:updated_at).first.value.to_s
+          refute_equal Chronic.parse('1 week ago').to_s, @parser.conditions_for(:created_at).first.value.to_s
+          refute_equal Chronic.parse('1 day ago').to_s, @parser.conditions_for(:updated_at).first.value.to_s
         end
       end
 
