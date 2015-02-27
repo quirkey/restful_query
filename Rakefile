@@ -7,17 +7,14 @@ begin
     s.name = %q{restful_query}
     s.version = RestfulQuery::VERSION
     s.authors = ["Aaron Quint"]
+    s.email = "aaron@quirkey.com"
+    s.homepage = "https://github.com/quirkey/restful_query"
+    s.license = "MIT"
     s.summary = 'Simple ActiveRecord and Sequel queries from a RESTful and safe interface'
     s.description   = %q{RestfulQuery provides a simple interface in front of a complex parser to parse specially formatted query hashes into complex SQL queries. It includes ActiveRecord and Sequel extensions.}
-    s.rubyforge_project = %q{quirkey}
-    s.add_runtime_dependency(%q<activesupport>, [">= 2.2.0"])
-    s.add_runtime_dependency(%q<chronic>, [">= 0.2.3"])
-    s.add_development_dependency(%q<appraisal>, ["~>1.0", ">= 1.0.2"])
-    s.add_development_dependency(%q<rake>, ["~>10.4", ">= 10.4.2"])
-    s.add_development_dependency(%q<minitest>, ["~> 5.5", ">= 5.5.0"])
-    s.add_development_dependency(%q<shoulda-context>, ["~> 1.2", ">= 1.2.1"])
   end
-  Jeweler::GemcutterTasks.new
+  Jeweler::RubygemsDotOrgTasks.new
+  
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
 end
