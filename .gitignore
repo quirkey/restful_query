@@ -3,3 +3,4 @@ tmp*
 pkg*
 .specification
 _site*
+Gemfile.lock
