@@ -53,6 +53,10 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<rake>, [">= 10.4.2", "~> 10.4"])
       s.add_development_dependency(%q<minitest>, [">= 5.5.0", "~> 5.5"])
       s.add_development_dependency(%q<shoulda-context>, [">= 1.2.1", "~> 1.2"])
+      s.add_development_dependency(%q<appraisal>, [">= 1.0.2", "~> 1.0"])
+      s.add_development_dependency(%q<rake>, [">= 10.4.2", "~> 10.4"])
+      s.add_development_dependency(%q<minitest>, [">= 5.5.0", "~> 5.5"])
+      s.add_development_dependency(%q<shoulda-context>, [">= 1.2.1", "~> 1.2"])
       s.add_runtime_dependency(%q<activesupport>, [">= 2.2.0"])
       s.add_runtime_dependency(%q<chronic>, [">= 0.2.3"])
       s.add_development_dependency(%q<appraisal>, [">= 1.0.2", "~> 1.0"])
@@ -61,6 +65,10 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<shoulda-context>, [">= 1.2.1", "~> 1.2"])
     else
       s.add_dependency(%q<restful_query>, [">= 0"])
+      s.add_dependency(%q<appraisal>, [">= 1.0.2", "~> 1.0"])
+      s.add_dependency(%q<rake>, [">= 10.4.2", "~> 10.4"])
+      s.add_dependency(%q<minitest>, [">= 5.5.0", "~> 5.5"])
+      s.add_dependency(%q<shoulda-context>, [">= 1.2.1", "~> 1.2"])
       s.add_dependency(%q<appraisal>, [">= 1.0.2", "~> 1.0"])
       s.add_dependency(%q<rake>, [">= 10.4.2", "~> 10.4"])
       s.add_dependency(%q<minitest>, [">= 5.5.0", "~> 5.5"])
@@ -74,6 +82,10 @@ Gem::Specification.new do |s|
     end
   else
     s.add_dependency(%q<restful_query>, [">= 0"])
+    s.add_dependency(%q<appraisal>, [">= 1.0.2", "~> 1.0"])
+    s.add_dependency(%q<rake>, [">= 10.4.2", "~> 10.4"])
+    s.add_dependency(%q<minitest>, [">= 5.5.0", "~> 5.5"])
+    s.add_dependency(%q<shoulda-context>, [">= 1.2.1", "~> 1.2"])
     s.add_dependency(%q<appraisal>, [">= 1.0.2", "~> 1.0"])
     s.add_dependency(%q<rake>, [">= 10.4.2", "~> 10.4"])
     s.add_dependency(%q<minitest>, [">= 5.5.0", "~> 5.5"])
