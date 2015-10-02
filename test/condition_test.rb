@@ -11,7 +11,7 @@ class RestfulQuery::ConditionTest < Minitest::Test
         end
 
         should "save column" do
-          assert_equal 'created_at', @condition.column
+          assert_equal "'created_at'", @condition.column
         end
 
         should "save value" do
@@ -104,7 +104,7 @@ class RestfulQuery::ConditionTest < Minitest::Test
         end
 
         should "include parens in placeholder" do
-          assert_equal ["year IN (?)", ['1995', '2005', '2006']], @condition.to_condition_array
+          assert_equal ["'year' IN (?)", ['1995', '2005', '2006']], @condition.to_condition_array
         end
 
         context "when the value is already an array" do
@@ -150,7 +150,7 @@ class RestfulQuery::ConditionTest < Minitest::Test
         end
 
         should "translate operator to LIKE" do
-          assert_equal("title LIKE ?", @to_condition_array[0])
+          assert_equal("'title' LIKE ?", @to_condition_array[0])
         end
 
       end
@@ -165,7 +165,7 @@ class RestfulQuery::ConditionTest < Minitest::Test
         end
 
         should "have conditional string first" do
-          assert_equal 'title < ?', @to_condition[0]
+          assert_equal "'title' < ?", @to_condition[0]
         end
 
         should "have value as [1]" do
@@ -175,7 +175,17 @@ class RestfulQuery::ConditionTest < Minitest::Test
 
       context "to_hash" do
         should "return hash like params" do
-          assert_equal({'title' => {'lt' => 'Bossman'}}, @condition.to_hash)
+          assert_equal({"'title'" => {'lt' => 'Bossman'}}, @condition.to_hash)
+        end
+      end
+
+      context "invalid Condition" do
+        setup do
+          @condition = RestfulQuery::Condition.new('title\'invalid', 'Bossman', 'lt')
+        end
+
+        should "escape column name" do
+          assert_equal("'title''invalid' < ?", @condition.to_condition_array[0])
         end
       end
     end

@@ -8,6 +8,12 @@ module RestfulQuery
     end
     
   end
+
+  class Condition
+    def column
+      DB.quote_identifier(@column)
+    end
+  end
 end
 
 module Sequel

@@ -163,7 +163,7 @@ class RestfulQuery::ParserTest < Minitest::Test
 
         should "map condition column" do
           assert @parser.conditions_for('section')
-          assert_equal 'section_id', @parser.conditions_for('section').first.column
+          assert_equal "'section_id'", @parser.conditions_for('section').first.column
         end
 
         should "map sort column" do
@@ -329,7 +329,7 @@ class RestfulQuery::ParserTest < Minitest::Test
           assert @conditions.is_a?(Array)
           @conditions.each do |condition|
             assert condition.is_a?(RestfulQuery::Condition)
-            assert_equal 'created_at', condition.column
+            assert_equal "'created_at'", condition.column
           end
         end
 
@@ -349,7 +349,7 @@ class RestfulQuery::ParserTest < Minitest::Test
         end
 
         should "include operators for all querys" do
-          assert_match(/(([a-z_]) (\<|\>|\=|\<\=|\>\=) \? AND)+/,@conditions[0])
+          assert_match(/(([a-z_']) (\<|\>|\=|\<\=|\>\=) \? AND)+/,@conditions[0])
         end
 
         should "join query hash with AND" do
@@ -368,7 +368,7 @@ class RestfulQuery::ParserTest < Minitest::Test
         end
 
         should "join query hash with OR" do
-          assert_match(/(([a-z_]) (\<|\>|\=|\<\=|\>\=) \? OR)+/,@conditions[0])
+          assert_match(/(([a-z_']) (\<|\>|\=|\<\=|\>\=) \? OR)+/,@conditions[0])
         end
       end
 
