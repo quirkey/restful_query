@@ -2,7 +2,7 @@ module RestfulQuery
   class InvalidOperator < Error; end;
   
   class Condition
-    attr_reader :column, :value, :operator, :options
+    attr_reader :value, :operator, :options
     
     OPERATOR_MAPPING = {
       'lt'    => '<',
@@ -79,6 +79,10 @@ module RestfulQuery
     
     def to_condition_array
       ["#{column} #{operator} #{placeholder}", value]
+    end
+
+    def column
+      ActiveRecord::Base.connection.quote_column_name(@column)
     end
     
     def placeholder

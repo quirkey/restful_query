@@ -19,10 +19,20 @@ unless defined?(ActiveRecord)
 
         def named_scope(name, options = {})
         end
+
+        def connection
+          PGAdapter.new
+        end
       end
       self.pluralize_table_names = true
 
       include RestfulQuery::CanQuery
+    end
+
+    class PGAdapter
+      def quote_column_name(column_name)
+        "'" + column_name.to_s.gsub(/'/, "''") + "'"
+      end
     end
   end
 end
