@@ -1,3 +1,7 @@
+== 0.5.0 2015-10-07
+
+* Security Release: Fix for improperly escaped columns, could cause potential SQL injection attack depending on what params were being passed to restful query
+
 == 0.3.5 2011-08-15
 
 * Too quick to release the last one. Fixed now.
